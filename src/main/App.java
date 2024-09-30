@@ -16,16 +16,18 @@ public class App {
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsDevice gd = ge.getDefaultScreenDevice();
 
-        GamePanel gamePanel = new GamePanel();
-
-        window.add(gamePanel);
-
         if (gd.isFullScreenSupported()) {
             gd.setFullScreenWindow(window);
         } else {
             window.setSize(Toolkit.getDefaultToolkit().getScreenSize());
-            window.setVisible(true);
         }
+
+        GamePanel gamePanel = new GamePanel();
+        gamePanel.setSize(window.getWidth(), window.getHeight());
+
+        window.add(gamePanel);
+
+        window.setVisible(true);
 
         gamePanel.startGameThread();
     }

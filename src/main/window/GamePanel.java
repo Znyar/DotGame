@@ -1,10 +1,10 @@
 package main.window;
 
 import main.entity.Drawable;
-import main.entity.Enemy;
 import main.entity.Player;
 import main.game.CollisionHandler;
 import main.game.EnemyControlHandler;
+import main.game.EnemyGenerator;
 import main.game.PlayerControlHandler;
 
 import java.awt.*;
@@ -14,18 +14,18 @@ import java.util.List;
 
 public class GamePanel extends Canvas implements Runnable {
 
-    private static final int ORIGINAL_TILE_SIZE = 16;
-    private static final int SCALE = 3;
-    private static final int TILE_SIZE = ORIGINAL_TILE_SIZE * SCALE;
     private static final int TARGET_FPS = 120;
     private static final long NANOSECONDS_PER_SECOND = 1000000000L;
 
     private Thread gameThread;
     private boolean running;
 
+    private Camera camera;
+
     private final PlayerControlHandler playerControlHandler;
     private final CollisionHandler collisionHandler;
     private final EnemyControlHandler enemyControlHandler;
+    private final EnemyGenerator enemyGenerator;
 
     private Player player;
     private final List<Drawable> drawables;
@@ -37,11 +37,11 @@ public class GamePanel extends Canvas implements Runnable {
         this.setIgnoreRepaint(true);
 
         drawables = new ArrayList<>();
-        initEntities();
 
         playerControlHandler = new PlayerControlHandler(this);
 
         collisionHandler = new CollisionHandler();
+        enemyGenerator = new EnemyGenerator(this, drawables);
         enemyControlHandler = new EnemyControlHandler();
 
         this.addKeyListener(playerControlHandler);
@@ -56,6 +56,10 @@ public class GamePanel extends Canvas implements Runnable {
         super.addNotify();
         this.createBufferStrategy(2);
         bufferStrategy = this.getBufferStrategy();
+
+        camera = new Camera(getWidth(), getHeight());
+        initPlayer();
+
         startGameThread();
     }
 
@@ -76,17 +80,13 @@ public class GamePanel extends Canvas implements Runnable {
     public void restartGameThread() {
         gameThread.interrupt();
         drawables.clear();
-        initEntities();
+        initPlayer();
         startGameThread();
     }
 
-    private void initEntities() {
-        player = new Player(this, 100, 100, TILE_SIZE);
-
+    private void initPlayer() {
+        player = new Player(this, getWidth() / 2, getHeight() / 2);
         drawables.add(player);
-        drawables.add(new Enemy(500, 500, TILE_SIZE));
-        drawables.add(new Enemy(750, 200, TILE_SIZE));
-        drawables.add(new Enemy(800, 300, TILE_SIZE));
     }
 
     @Override
@@ -110,7 +110,9 @@ public class GamePanel extends Canvas implements Runnable {
     }
 
     private void update() {
+        camera.update(player);
         collisionHandler.handleCollisions(drawables);
+        enemyGenerator.update();
         playerControlHandler.handle(player);
         enemyControlHandler.handle(drawables, player);
     }
@@ -135,7 +137,9 @@ public class GamePanel extends Canvas implements Runnable {
     }
 
     private void draw(Graphics2D g2) {
+        g2.translate(-camera.getXOffset(), -camera.getYOffset());
         drawables.forEach(drawable -> drawable.draw(g2));
+        g2.translate(camera.getXOffset(), camera.getYOffset());
     }
 
 }

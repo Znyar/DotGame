@@ -8,15 +8,18 @@ public class Player extends PolygonShape {
 
     private final GamePanel gamePanel;
 
-    private int speed;
-    private int maxSpeed;
-    private int minSpeed;
-    private final static int DEFAULT_SPEED = 3;
-    private final static int DEFAULT_MAX_SPEED = DEFAULT_SPEED * 2;
-    private final static int DEFAULT_MIN_SPEED = DEFAULT_SPEED;
+    private int tileSize;
+    private double speed;
+    private double maxSpeed;
+    private double minSpeed;
+    private final static double DEFAULT_SPEED = 3;
+    private final static double DEFAULT_MAX_SPEED = DEFAULT_SPEED * 2;
+    private final static double DEFAULT_MIN_SPEED = DEFAULT_SPEED;
+    private static final int DEFAULT_TILE_SIZE = 48;
 
-    public Player(GamePanel gamePanel, int startX, int startY, int tileSize) {
-        super(startX, startY, tileSize);
+    public Player(GamePanel gamePanel, int startX, int startY) {
+        super(startX, startY, DEFAULT_TILE_SIZE);
+        tileSize = DEFAULT_TILE_SIZE;
         speed = DEFAULT_MIN_SPEED;
         maxSpeed = DEFAULT_MAX_SPEED;
         minSpeed = DEFAULT_MIN_SPEED;

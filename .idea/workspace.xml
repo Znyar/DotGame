@@ -4,25 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="172858e8-5e3d-466c-b411-be44065440ad" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/My2DGameExample.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/App.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/entity/Collidable.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/entity/Drawable.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/entity/Enemy.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/entity/Player.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/entity/PolygonShape.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/game/CollisionHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/game/EnemyControlHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/game/InputHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/game/PlayerControlHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/window/GamePanel.java" afterDir="false" />
+    <list default="true" id="172858e8-5e3d-466c-b411-be44065440ad" name="Changes" comment="init">
+      <change afterPath="$PROJECT_DIR$/src/main/game/EnemyGenerator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/window/Camera.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/entity/Enemy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/entity/Enemy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/entity/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/entity/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/window/GamePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/window/GamePanel.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,11 +71,25 @@
       <workItem from="1727671011132" duration="10951000" />
       <workItem from="1727687161355" duration="122000" />
       <workItem from="1727691061016" duration="1466000" />
-      <workItem from="1727697147365" duration="4276000" />
+      <workItem from="1727697147365" duration="4576000" />
+      <workItem from="1727721837316" duration="4320000" />
     </task>
+    <task id="LOCAL-00001" summary="init">
+      <option name="closed" value="true" />
+      <created>1727704505820</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1727704505820</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="init" />
+    <option name="LAST_COMMIT_MESSAGE" value="init" />
   </component>
 </project>
