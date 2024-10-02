@@ -2,12 +2,10 @@ package main.window;
 
 import main.entity.Drawable;
 import main.entity.Player;
-import main.game.CollisionHandler;
-import main.game.EnemyControlHandler;
-import main.game.EnemyGenerator;
-import main.game.PlayerControlHandler;
+import main.game.*;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.awt.image.BufferStrategy;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,32 +20,20 @@ public class GamePanel extends Canvas implements Runnable {
 
     private Camera camera;
 
-    private final PlayerControlHandler playerControlHandler;
-    private final CollisionHandler collisionHandler;
-    private final EnemyControlHandler enemyControlHandler;
-    private final EnemyGenerator enemyGenerator;
+    private PlayerControlHandler playerControlHandler;
+    private CollisionHandler collisionHandler;
+    private EnemyControlHandler enemyControlHandler;
+    private EnemyGenerator enemyGenerator;
+    private ProjectileHandler projectileHandler;
 
     private Player player;
-    private final List<Drawable> drawables;
+    private final List<Drawable> drawables = new ArrayList<>();
 
     private BufferStrategy bufferStrategy;
 
     public GamePanel() {
         this.setBackground(Color.BLACK);
         this.setIgnoreRepaint(true);
-
-        drawables = new ArrayList<>();
-
-        playerControlHandler = new PlayerControlHandler(this);
-
-        collisionHandler = new CollisionHandler();
-        enemyGenerator = new EnemyGenerator(this, drawables);
-        enemyControlHandler = new EnemyControlHandler();
-
-        this.addKeyListener(playerControlHandler);
-        this.addMouseListener(playerControlHandler);
-        this.addMouseMotionListener(playerControlHandler);
-
         this.setFocusable(true);
     }
 
@@ -58,7 +44,19 @@ public class GamePanel extends Canvas implements Runnable {
         bufferStrategy = this.getBufferStrategy();
 
         camera = new Camera(getWidth(), getHeight());
+
         initPlayer();
+
+        playerControlHandler = new PlayerControlHandler(this);
+
+        collisionHandler = new CollisionHandler();
+        enemyControlHandler = new EnemyControlHandler();
+        enemyGenerator = new EnemyGenerator(drawables);
+        projectileHandler = new ProjectileHandler(this);
+
+        this.addKeyListener(playerControlHandler);
+        this.addMouseListener(playerControlHandler);
+        this.addMouseMotionListener(playerControlHandler);
 
         startGameThread();
     }
@@ -111,8 +109,9 @@ public class GamePanel extends Canvas implements Runnable {
 
     private void update() {
         camera.update(player);
+        projectileHandler.handle();
         collisionHandler.handleCollisions(drawables);
-        enemyGenerator.update();
+        enemyGenerator.update(camera);
         playerControlHandler.handle(player);
         enemyControlHandler.handle(drawables, player);
     }
@@ -138,8 +137,26 @@ public class GamePanel extends Canvas implements Runnable {
 
     private void draw(Graphics2D g2) {
         g2.translate(-camera.getXOffset(), -camera.getYOffset());
-        drawables.forEach(drawable -> drawable.draw(g2));
+        drawables.forEach(drawable -> {
+            Point2D position = drawable.getPosition();
+            double cameraX = camera.getXOffset();
+            double cameraY = camera.getYOffset();
+            double drawableX = position.getX();
+            double drawableY = position.getY();
+            if (drawableX > cameraX || drawableX < cameraX + camera.getScreenWidth()
+                    || drawableY > cameraY || drawableY < cameraY + camera.getScreenHeight())
+            {
+                drawable.draw(g2);
+            }
+        });
         g2.translate(camera.getXOffset(), camera.getYOffset());
     }
 
+    public Camera getCamera() {
+        return camera;
+    }
+
+    public List<Drawable> getDrawables() {
+        return drawables;
+    }
 }

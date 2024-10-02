@@ -1,7 +1,6 @@
 package main.game;
 
-import main.entity.Collidable;
-import main.entity.Drawable;
+import main.entity.*;
 
 import java.util.List;
 
@@ -9,9 +8,10 @@ public class CollisionHandler {
 
     public void handleCollisions(List<Drawable> drawables) {
         List<Collidable> collidables = drawables.stream()
-                .filter(d -> d instanceof Collidable)
-                .map(d -> (Collidable) d)
+                .filter(drawable -> drawable instanceof Collidable)
+                .map(drawable -> (Collidable) drawable)
                 .toList();
+
         for (int i = 0; i < collidables.size(); i++) {
             Collidable current = collidables.get(i);
             for (int j = i + 1; j < collidables.size(); j++) {
@@ -19,6 +19,12 @@ public class CollisionHandler {
                 if (current.isColliding(other)) {
                     current.onCollision(other);
                     other.onCollision(current);
+
+                    if ((current instanceof Projectile && other instanceof Enemy)
+                            || (current instanceof Enemy && other instanceof Projectile)) {
+                        drawables.remove(other);
+                        drawables.remove(current);
+                    }
                 }
             }
         }

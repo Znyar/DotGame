@@ -5,7 +5,8 @@ import java.awt.event.*;
 public abstract class InputHandler implements KeyListener, MouseListener, MouseMotionListener {
 
     protected boolean upPressed, downPressed, leftPressed, rightPressed;
-    protected boolean shiftPressed;
+    protected boolean shiftPressed, rPressed;
+    protected boolean leftMousePressed;
     protected boolean escPressed;
     protected double mouseX, mouseY;
 
@@ -23,6 +24,7 @@ public abstract class InputHandler implements KeyListener, MouseListener, MouseM
             case KeyEvent.VK_D, KeyEvent.VK_RIGHT -> rightPressed = true;
             case KeyEvent.VK_SHIFT -> shiftPressed = true;
             case KeyEvent.VK_ESCAPE -> escPressed = true;
+            case  KeyEvent.VK_R -> rPressed = true;
         }
     }
 
@@ -36,6 +38,7 @@ public abstract class InputHandler implements KeyListener, MouseListener, MouseM
             case KeyEvent.VK_D, KeyEvent.VK_RIGHT -> rightPressed = false;
             case KeyEvent.VK_SHIFT -> shiftPressed = false;
             case KeyEvent.VK_ESCAPE -> escPressed = false;
+            case  KeyEvent.VK_R -> rPressed = false;
         }
     }
 
@@ -46,27 +49,36 @@ public abstract class InputHandler implements KeyListener, MouseListener, MouseM
 
     @Override
     public void mousePressed(MouseEvent e) {
-
+        int button = e.getButton();
+        switch (button) {
+            case MouseEvent.BUTTON1 -> leftMousePressed = true;
+        }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-
+        int button = e.getButton();
+        switch (button) {
+            case MouseEvent.BUTTON1 -> leftMousePressed = false;
+        }
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
-
+        mouseX = e.getX();
+        mouseY = e.getY();
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-
+        mouseX = e.getX();
+        mouseY = e.getY();
     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
-
+        mouseX = e.getX();
+        mouseY = e.getY();
     }
 
 

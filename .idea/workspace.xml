@@ -4,13 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="172858e8-5e3d-466c-b411-be44065440ad" name="Changes" comment="init">
-      <change afterPath="$PROJECT_DIR$/src/main/game/EnemyGenerator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/window/Camera.java" afterDir="false" />
+    <list default="true" id="172858e8-5e3d-466c-b411-be44065440ad" name="Changes" comment="add camera">
+      <change afterPath="$PROJECT_DIR$/src/main/entity/CircleShape.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/entity/Projectile.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/game/GameLoop.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/game/ProjectileHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/entity/Drawable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/entity/Drawable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/entity/Enemy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/entity/Enemy.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/entity/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/entity/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/game/CollisionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/game/CollisionHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/game/EnemyGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/game/EnemyGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/game/InputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/game/InputHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/game/PlayerControlHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/game/PlayerControlHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/window/Camera.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/window/Camera.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/window/GamePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/window/GamePanel.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -72,7 +79,14 @@
       <workItem from="1727687161355" duration="122000" />
       <workItem from="1727691061016" duration="1466000" />
       <workItem from="1727697147365" duration="4576000" />
-      <workItem from="1727721837316" duration="4320000" />
+      <workItem from="1727721837316" duration="4536000" />
+      <workItem from="1727731781316" duration="6367000" />
+      <workItem from="1727771502791" duration="627000" />
+      <workItem from="1727777584991" duration="448000" />
+      <workItem from="1727779206511" duration="141000" />
+      <workItem from="1727786599359" duration="148000" />
+      <workItem from="1727888751529" duration="1212000" />
+      <workItem from="1727895732656" duration="1439000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <option name="closed" value="true" />
@@ -82,7 +96,15 @@
       <option name="project" value="LOCAL" />
       <updated>1727704505820</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="add camera">
+      <option name="closed" value="true" />
+      <created>1727726475774</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1727726475775</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -90,6 +112,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="init" />
-    <option name="LAST_COMMIT_MESSAGE" value="init" />
+    <MESSAGE value="add camera" />
+    <option name="LAST_COMMIT_MESSAGE" value="add camera" />
   </component>
 </project>

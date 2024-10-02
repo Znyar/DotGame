@@ -14,11 +14,12 @@ public class PlayerControlHandler extends InputHandler {
     public void handle(Player player) {
         setPlayerPosition(player);
         setPlayerOptions(player);
+        handleShooting(player);
         handleWindowControls();
     }
 
     private void handleWindowControls() {
-        if (super.escPressed) {
+        if (escPressed) {
             gamePanel.stopGameThread();
         }
     }
@@ -28,6 +29,9 @@ public class PlayerControlHandler extends InputHandler {
             player.speedUp();
         } else {
             player.slowDown();
+        }
+        if (rPressed) {
+            player.rearm();
         }
     }
 
@@ -46,4 +50,18 @@ public class PlayerControlHandler extends InputHandler {
         }
     }
 
+    private void handleShooting(Player player) {
+        if (leftMousePressed) {
+            double worldMouseX = mouseX + gamePanel.getCamera().getXOffset();
+            double worldMouseY = mouseY + gamePanel.getCamera().getYOffset();
+
+            double deltaX = worldMouseX - player.getPosition().getX();
+            double deltaY = worldMouseY - player.getPosition().getY();
+
+            double angle = Math.atan2(deltaY, deltaX);
+
+            player.fire(angle).ifPresent(projectile -> gamePanel.getDrawables().add(projectile));
+
+        }
+    }
 }
