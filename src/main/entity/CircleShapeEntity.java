@@ -5,15 +5,13 @@ import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 
-public abstract class CircleShape implements Collidable, Drawable {
+public abstract class CircleShapeEntity extends ShapeEntity {
 
     protected final double radius;
-    protected Point2D center;
 
-    protected Color color;
     private static final Color DEFAULT_COLOR = Color.WHITE;
 
-    public CircleShape(int x, int y, double radius) {
+    public CircleShapeEntity(int x, int y, double radius) {
         center = new Point(x, y);
         this.radius = radius;
         color = DEFAULT_COLOR;

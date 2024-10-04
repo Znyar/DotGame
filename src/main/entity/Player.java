@@ -5,7 +5,7 @@ import main.window.GamePanel;
 import java.awt.geom.Point2D;
 import java.util.Optional;
 
-public class Player extends PolygonShape {
+public class Player extends PolygonShapeEntity {
 
     private final GamePanel gamePanel;
 
@@ -61,7 +61,12 @@ public class Player extends PolygonShape {
         {
             lastShootTime = System.currentTimeMillis();
             projectileCount--;
-            return Optional.of(new Projectile((int) center.getX(), (int) center.getY(), projectTileRadius, angle, projectTileSpeed));
+            return Optional.of(new Projectile((int) center.getX(),
+                    (int) center.getY(),
+                    projectTileRadius,
+                    angle,
+                    projectTileSpeed,
+                    gamePanel.getDrawableGarbage()));
         }
         return Optional.empty();
     }

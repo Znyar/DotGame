@@ -1,15 +1,25 @@
 package main.game;
 
 import main.entity.*;
+import main.window.GamePanel;
 
 import java.util.List;
 
 public class CollisionHandler {
 
-    public void handleCollisions(List<Drawable> drawables) {
+    private final GamePanel gamePanel;
+
+    public CollisionHandler(GamePanel gamePanel) {
+        this.gamePanel = gamePanel;
+    }
+
+    public void handleCollisions() {
+        List<Drawable> drawables = gamePanel.getDrawables();
+
         List<Collidable> collidables = drawables.stream()
                 .filter(drawable -> drawable instanceof Collidable)
                 .map(drawable -> (Collidable) drawable)
+                .filter(collidable -> collidable.getCollisionBounds().intersects(gamePanel.getCamera().getBounds()))
                 .toList();
 
         for (int i = 0; i < collidables.size(); i++) {
@@ -19,12 +29,6 @@ public class CollisionHandler {
                 if (current.isColliding(other)) {
                     current.onCollision(other);
                     other.onCollision(current);
-
-                    if ((current instanceof Projectile && other instanceof Enemy)
-                            || (current instanceof Enemy && other instanceof Projectile)) {
-                        drawables.remove(other);
-                        drawables.remove(current);
-                    }
                 }
             }
         }

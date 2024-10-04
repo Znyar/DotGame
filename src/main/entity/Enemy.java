@@ -1,26 +1,25 @@
 package main.entity;
 
+import main.game.DrawableGarbage;
+
 import java.awt.geom.Point2D;
-import java.util.List;
 
 import static java.awt.Color.*;
 
-public class Enemy extends CircleShape {
+public class Enemy extends CircleShapeEntity {
 
+    private final DrawableGarbage drawableGarbage;
     private int radius;
     private double speed;
-    private double maxSpeed;
-    private double minSpeed;
     private final static double DEFAULT_SPEED = 0.5;
-    private final static double DEFAULT_MAX_SPEED = DEFAULT_SPEED * 2;
-    private final static double DEFAULT_MIN_SPEED = DEFAULT_SPEED;
     private static final int DEFAULT_RADIUS = 30;
 
-    public Enemy(int startX, int startY) {
+    public Enemy(int startX, int startY, DrawableGarbage drawableGarbage) {
         super(startX, startY, DEFAULT_RADIUS);
+        this.drawableGarbage = drawableGarbage;
         radius = DEFAULT_RADIUS;
         color = RED;
-        speed = DEFAULT_MIN_SPEED;
+        speed = DEFAULT_SPEED;
     }
 
     public Point2D getPosition() {
@@ -35,6 +34,9 @@ public class Enemy extends CircleShape {
 
     @Override
     public void onCollision(Collidable other) {
+        if (other instanceof Projectile) {
+            drawableGarbage.add(this);
+        }
     }
 
 }

@@ -6,7 +6,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class PolygonShape implements Collidable, Drawable {
+public abstract class PolygonShapeEntity extends ShapeEntity {
     private final List<Point2D> vertices;
     protected final int tileSize;
     protected Point2D center;
@@ -14,7 +14,7 @@ public abstract class PolygonShape implements Collidable, Drawable {
     protected Color color;
     private static final Color DEFAULT_COLOR = Color.WHITE;
 
-    public PolygonShape(int startX, int startY, int tileSize) {
+    public PolygonShapeEntity(int startX, int startY, int tileSize) {
         this.vertices = initVertices(startX, startY, tileSize);
         center = initCenter();
         this.tileSize = tileSize;

@@ -1,5 +1,6 @@
 package main.game;
 
+import main.entity.Drawable;
 import main.entity.Projectile;
 import main.window.Camera;
 import main.window.GamePanel;
@@ -16,7 +17,7 @@ public class ProjectileHandler {
     }
 
     public void handle() {
-        Collection<Projectile> projectilesToRemove = new ArrayList<>();
+        Collection<Drawable> projectilesToRemove = new ArrayList<>();
         gamePanel.getDrawables().forEach(drawable -> {
             if (drawable instanceof Projectile projectile) {
                 Camera camera = gamePanel.getCamera();
@@ -32,7 +33,7 @@ public class ProjectileHandler {
                 }
             }
         });
-        gamePanel.getDrawables().removeAll(projectilesToRemove);
+        gamePanel.getDrawableGarbage().addAll(projectilesToRemove);
     }
 
 }

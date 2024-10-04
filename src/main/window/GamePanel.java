@@ -12,8 +12,8 @@ import java.util.List;
 
 public class GamePanel extends Canvas implements Runnable {
 
-    private static final int TARGET_FPS = 120;
-    private static final long NANOSECONDS_PER_SECOND = 1000000000L;
+    private static final double FPS = 60;
+    private static final double UPS = 60;
 
     private Thread gameThread;
     private boolean running;
@@ -25,6 +25,7 @@ public class GamePanel extends Canvas implements Runnable {
     private EnemyControlHandler enemyControlHandler;
     private EnemyGenerator enemyGenerator;
     private ProjectileHandler projectileHandler;
+    private DrawableGarbage drawableGarbage;
 
     private Player player;
     private final List<Drawable> drawables = new ArrayList<>();
@@ -48,11 +49,11 @@ public class GamePanel extends Canvas implements Runnable {
         initPlayer();
 
         playerControlHandler = new PlayerControlHandler(this);
-
-        collisionHandler = new CollisionHandler();
-        enemyControlHandler = new EnemyControlHandler();
-        enemyGenerator = new EnemyGenerator(drawables);
+        collisionHandler = new CollisionHandler(this);
+        enemyControlHandler = new EnemyControlHandler(this);
+        enemyGenerator = new EnemyGenerator(this);
         projectileHandler = new ProjectileHandler(this);
+        drawableGarbage = new DrawableGarbage();
 
         this.addKeyListener(playerControlHandler);
         this.addMouseListener(playerControlHandler);
@@ -89,31 +90,50 @@ public class GamePanel extends Canvas implements Runnable {
 
     @Override
     public void run() {
-        long lastTime = System.nanoTime();
-        double nsPerFrame = (double) NANOSECONDS_PER_SECOND / TARGET_FPS;
-        double delta = 0;
+        long initialTime = System.nanoTime();
+        final double timeU = 1000000000 / UPS;
+        final double timeF = 1000000000 / FPS;
+        double deltaU = 0, deltaF = 0;
+        int frames = 0, ticks = 0;
+        long timer = System.currentTimeMillis();
 
         while (running) {
-            long now = System.nanoTime();
-            delta += (now - lastTime) / nsPerFrame;
-            lastTime = now;
 
-            while (delta >= 1) {
+            long currentTime = System.nanoTime();
+            deltaU += (currentTime - initialTime) / timeU;
+            deltaF += (currentTime - initialTime) / timeF;
+            initialTime = currentTime;
+
+            if (deltaU >= 1) {
                 update();
-                delta--;
+                ticks++;
+                deltaU--;
             }
 
-            render();
+            if (deltaF >= 1) {
+                render();
+                frames++;
+                deltaF--;
+            }
+
+            if (System.currentTimeMillis() - timer > 10000) {
+                System.out.printf("UPS: %s, FPS: %s%n", ticks, frames);
+                frames = 0;
+                ticks = 0;
+                timer += 1000;
+            }
         }
     }
 
     private void update() {
         camera.update(player);
         projectileHandler.handle();
-        collisionHandler.handleCollisions(drawables);
-        enemyGenerator.update(camera);
-        playerControlHandler.handle(player);
-        enemyControlHandler.handle(drawables, player);
+        collisionHandler.handleCollisions();
+        enemyGenerator.update();
+        playerControlHandler.handle();
+        enemyControlHandler.handle();
+        drawables.removeAll(drawableGarbage.getDrawables());
+        drawableGarbage.clear();
     }
 
     private void render() {
@@ -158,5 +178,13 @@ public class GamePanel extends Canvas implements Runnable {
 
     public List<Drawable> getDrawables() {
         return drawables;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public DrawableGarbage getDrawableGarbage() {
+        return drawableGarbage;
     }
 }

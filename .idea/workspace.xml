@@ -4,19 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="172858e8-5e3d-466c-b411-be44065440ad" name="Changes" comment="add camera">
-      <change afterPath="$PROJECT_DIR$/src/main/entity/CircleShape.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/entity/Projectile.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/game/GameLoop.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/game/ProjectileHandler.java" afterDir="false" />
+    <list default="true" id="172858e8-5e3d-466c-b411-be44065440ad" name="Changes" comment="add shooting">
+      <change afterPath="$PROJECT_DIR$/src/main/game/DrawableGarbage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/entity/Drawable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/entity/Drawable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/entity/CircleShape.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/entity/CircleShapeEntity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/entity/Enemy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/entity/Enemy.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/entity/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/entity/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/entity/PolygonShape.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/entity/PolygonShapeEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/entity/Projectile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/entity/Projectile.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/game/CollisionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/game/CollisionHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/game/EnemyControlHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/game/EnemyControlHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/game/EnemyGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/game/EnemyGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/game/InputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/game/InputHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/game/PlayerControlHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/game/PlayerControlHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/game/ProjectileHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/game/ProjectileHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/window/Camera.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/window/Camera.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/window/GamePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/window/GamePanel.java" afterDir="false" />
     </list>
@@ -35,6 +35,7 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="HARD" />
   </component>
   <component name="ProjectId" id="2mjeefwMEdFPM3odRbboTThekyd" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -52,6 +53,7 @@
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -87,6 +89,10 @@
       <workItem from="1727786599359" duration="148000" />
       <workItem from="1727888751529" duration="1212000" />
       <workItem from="1727895732656" duration="1439000" />
+      <workItem from="1727953861032" duration="1861000" />
+      <workItem from="1728023430830" duration="50000" />
+      <workItem from="1728078631164" duration="174000" />
+      <workItem from="1728080759227" duration="349000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <option name="closed" value="true" />
@@ -109,6 +115,17 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="init" />

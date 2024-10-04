@@ -2,6 +2,8 @@ package main.window;
 
 import main.entity.Player;
 
+import java.awt.geom.Rectangle2D;
+
 public class Camera {
     private double xOffset;
     private double yOffset;
@@ -41,4 +43,9 @@ public class Camera {
     public int getScreenHeight() {
         return screenHeight;
     }
+
+    public Rectangle2D getBounds() {
+        return new Rectangle2D.Double(xOffset, yOffset, screenWidth, screenHeight);
+    }
+
 }
