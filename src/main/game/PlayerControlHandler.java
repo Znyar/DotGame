@@ -15,20 +15,10 @@ public class PlayerControlHandler extends InputHandler {
         Player player = gamePanel.getPlayer();
 
         setPlayerPosition(player);
-/*        setPlayerOrientation(player);*/
         setPlayerOptions(player);
         handleShooting(player);
         handleWindowControls();
     }
-
-/*    private void setPlayerOrientation(Player player) {
-        double playerX = player.getPosition().getX();
-        double playerY = player.getPosition().getY();
-
-        double angle = Math.atan2(mouseY + gamePanel.getCamera().getYOffset() - playerY, mouseX + gamePanel.getCamera().getYOffset() - playerX);
-
-        player.setAngle(angle);
-    }*/
 
     private void handleWindowControls() {
         if (escPressed) {

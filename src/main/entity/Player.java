@@ -28,8 +28,8 @@ public class Player extends PolygonShapeEntity {
     private final static double DEFAULT_MIN_SPEED = DEFAULT_SPEED;
     private static final int DEFAULT_TILE_SIZE = 48;
 
-    public Player(GamePanel gamePanel, int startX, int startY) {
-        super(startX, startY, DEFAULT_TILE_SIZE);
+    public Player(GamePanel gamePanel) {
+        super(gamePanel.getWidth() / 2, gamePanel.getHeight() / 2, DEFAULT_TILE_SIZE);
         tileSize = DEFAULT_TILE_SIZE;
         speed = DEFAULT_MIN_SPEED;
         maxSpeed = DEFAULT_MAX_SPEED;

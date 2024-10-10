@@ -13,9 +13,9 @@ public class Camera {
 
     private static final double SMOOTHING_FACTOR = 0.05;
 
-    public Camera(int screenWidth, int screenHeight) {
-        this.screenWidth = screenWidth;
-        this.screenHeight = screenHeight;
+    public Camera(GamePanel gamePanel) {
+        this.screenWidth = gamePanel.getWidth();
+        this.screenHeight = gamePanel.getHeight();
         this.xOffset = 0;
         this.yOffset = 0;
     }

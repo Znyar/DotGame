@@ -44,7 +44,8 @@ public class GamePanel extends Canvas implements Runnable {
         this.createBufferStrategy(2);
         bufferStrategy = this.getBufferStrategy();
 
-        camera = new Camera(getWidth(), getHeight());
+        System.out.println("Gamepanel: " + getWidth() + " " + getHeight());
+        camera = new Camera(this);
 
         initPlayer();
 
@@ -84,7 +85,7 @@ public class GamePanel extends Canvas implements Runnable {
     }
 
     private void initPlayer() {
-        player = new Player(this, getWidth() / 2, getHeight() / 2);
+        player = new Player(this);
         drawables.add(player);
     }
 
@@ -126,6 +127,8 @@ public class GamePanel extends Canvas implements Runnable {
     }
 
     private void update() {
+        System.out.println("Player: " + player.getPosition().getX() + " " + player.getPosition().getY());
+        System.out.println("Camera: " + getCamera().getXOffset() + " " + getCamera().getYOffset());
         camera.update(player);
         projectileHandler.handle();
         collisionHandler.handleCollisions();

@@ -1,7 +1,6 @@
 package main.entity;
 
 import java.awt.*;
-import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 
@@ -26,15 +25,6 @@ public abstract class CircleShapeEntity extends ShapeEntity {
         g2.setColor(color);
         Ellipse2D ellipse = new Ellipse2D.Double(center.getX() - radius, center.getY() - radius, radius * 2, radius * 2);
         g2.fill(ellipse);
-    }
-
-    @Override
-    public boolean isColliding(Collidable other) {
-        Area areaA = new Area(getCollisionBounds());
-        Area areaB = new Area(other.getCollisionBounds());
-
-        areaA.intersect(areaB);
-        return !areaA.isEmpty();
     }
 
     @Override
