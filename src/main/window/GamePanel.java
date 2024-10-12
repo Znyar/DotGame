@@ -56,7 +56,6 @@ public class GamePanel extends Canvas implements Runnable {
             e.printStackTrace();
         }
 
-        System.out.println("Gamepanel: " + getWidth() + " " + getHeight());
         camera = new Camera(this);
         playerUI = new PlayerUI(500, 100, this);
 
@@ -140,8 +139,6 @@ public class GamePanel extends Canvas implements Runnable {
     }
 
     private void update() {
-        System.out.println("Player: " + player.getPosition().getX() + " " + player.getPosition().getY());
-        System.out.println("Camera: " + getCamera().getXOffset() + " " + getCamera().getYOffset());
         camera.update(player);
         projectileHandler.handle();
         collisionHandler.handleCollisions();
@@ -208,5 +205,9 @@ public class GamePanel extends Canvas implements Runnable {
 
     public DrawableGarbage getDrawableGarbage() {
         return drawableGarbage;
+    }
+
+    public PlayerUI getPlayerUI() {
+        return playerUI;
     }
 }

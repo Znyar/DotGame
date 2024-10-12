@@ -81,6 +81,14 @@ public class Player extends PolygonShapeEntity {
         projectileCount = ammoCount;
     }
 
+    public int getAmmoCount() {
+        return ammoCount;
+    }
+
+    public int getProjectileCount() {
+        return projectileCount;
+    }
+
     public void speedUp() {
         if (speed < maxSpeed)
             speed += 0.1;

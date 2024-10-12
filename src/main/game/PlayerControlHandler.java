@@ -27,13 +27,24 @@ public class PlayerControlHandler extends InputHandler {
 
         double deltaX = worldMouseX - player.getPosition().getX();
         double deltaY = worldMouseY - player.getPosition().getY();
+
         double targetAngle = Math.atan2(deltaY, deltaX);
 
         double currentAngle = player.getAngle();
 
+        currentAngle = normalizeAngle(currentAngle);
+        targetAngle = normalizeAngle(targetAngle);
+
+        System.out.println("Current angle: " + currentAngle);
+        System.out.println("Target angle: " + targetAngle);
+
         double angleDifference = targetAngle - currentAngle;
 
-        angleDifference = (angleDifference + Math.PI) % (2 * Math.PI) - Math.PI;
+        if (angleDifference > Math.PI) {
+            angleDifference -= 2 * Math.PI;
+        } else if (angleDifference < -Math.PI) {
+            angleDifference += 2 * Math.PI;
+        }
 
         if (angleDifference > player.getRotationSpeed()) {
             angleDifference = player.getRotationSpeed();
@@ -42,7 +53,11 @@ public class PlayerControlHandler extends InputHandler {
         }
 
         double newAngle = currentAngle + angleDifference;
-        player.setAngle(newAngle);
+        player.setAngle(normalizeAngle(newAngle));
+    }
+
+    private double normalizeAngle(double angle) {
+        return (angle + Math.PI) % (2 * Math.PI) - Math.PI;
     }
 
     private void handleWindowControls() {

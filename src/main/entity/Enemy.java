@@ -1,22 +1,25 @@
 package main.entity;
 
 import main.game.DrawableGarbage;
+import main.window.PlayerUI;
 
 import java.awt.geom.Point2D;
 
 public class Enemy extends CircleShapeEntity {
 
     private final DrawableGarbage drawableGarbage;
+    private final PlayerUI playerUI;
     private int radius;
     private double speed;
     private final static double DEFAULT_SPEED = 0.5;
     private static final int DEFAULT_RADIUS = 30;
 
-    public Enemy(int startX, int startY, DrawableGarbage drawableGarbage, String imagePath) {
+    public Enemy(int startX, int startY, DrawableGarbage drawableGarbage, String imagePath, PlayerUI playerUI) {
         super(startX, startY, DEFAULT_RADIUS, 0, imagePath);
         this.drawableGarbage = drawableGarbage;
         radius = DEFAULT_RADIUS;
         speed = DEFAULT_SPEED;
+        this.playerUI = playerUI;
     }
 
     public Point2D getPosition() {
@@ -33,6 +36,7 @@ public class Enemy extends CircleShapeEntity {
     public void onCollision(Collidable other) {
         if (other instanceof Projectile) {
             drawableGarbage.add(this);
+            playerUI.increaseScore(1);
         }
     }
 
