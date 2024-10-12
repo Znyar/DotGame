@@ -8,7 +8,7 @@ import java.util.Random;
 
 public class EnemyGenerator {
 
-    private static final int SPAWN_INTERVAL = 1000;
+    private static final int SPAWN_INTERVAL = 2000;
     private static final int SPAWN_MARGIN = 100;
     private final Random random = new Random();
     private final GamePanel gamePanel;
@@ -49,7 +49,7 @@ public class EnemyGenerator {
             x = random.nextInt(cameraWidth + 2 * SPAWN_MARGIN) + (int) xOffset - SPAWN_MARGIN;
         }
 
-        Enemy enemy = new Enemy(x, y, gamePanel.getDrawableGarbage());
+        Enemy enemy = new Enemy(x, y, gamePanel.getDrawableGarbage(), "resources/enemy.png");
         gamePanel.getDrawables().add(enemy);
     }
 }

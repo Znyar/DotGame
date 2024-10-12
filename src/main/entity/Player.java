@@ -11,10 +11,11 @@ public class Player extends PolygonShapeEntity {
 
     private int tileSize;
     private double speed;
+    private double rotationSpeed;
     private double maxSpeed;
     private double minSpeed;
-    private double projectTileRadius;
-    private double projectTileSpeed;
+    private int projectileSize;
+    private double projectileSpeed;
     private int ammoCount;
     private int projectileCount;
     private int shootingCooldown;
@@ -22,25 +23,27 @@ public class Player extends PolygonShapeEntity {
     private static final int DEFAULT_SHOOTING_COOLDOWN = 1000;
     private static final int DEFAULT_AMMO_COUNT = 10;
     private final static double DEFAULT_PROJECTILE_SPEED = 10;
-    private final static double DEFAULT_PROJECTILE_RADIUS = 3;
-    private final static double DEFAULT_SPEED = 3;
+    private final static int DEFAULT_PROJECTILE_SIZE = 20;
+    private final static double DEFAULT_SPEED = 1;
     private final static double DEFAULT_MAX_SPEED = DEFAULT_SPEED * 2;
     private final static double DEFAULT_MIN_SPEED = DEFAULT_SPEED;
     private static final int DEFAULT_TILE_SIZE = 48;
+    private final static double MAX_ROTATION_SPEED = 0.05;
 
-    public Player(GamePanel gamePanel) {
-        super(gamePanel.getWidth() / 2, gamePanel.getHeight() / 2, DEFAULT_TILE_SIZE);
+    public Player(GamePanel gamePanel, String imagePath) {
+        super(gamePanel.getWidth() / 2, gamePanel.getHeight() / 2, DEFAULT_TILE_SIZE, imagePath);
         tileSize = DEFAULT_TILE_SIZE;
         speed = DEFAULT_MIN_SPEED;
         maxSpeed = DEFAULT_MAX_SPEED;
         minSpeed = DEFAULT_MIN_SPEED;
         this.gamePanel = gamePanel;
-        projectTileSpeed = DEFAULT_PROJECTILE_SPEED;
-        projectTileRadius = DEFAULT_PROJECTILE_RADIUS;
+        projectileSpeed = DEFAULT_PROJECTILE_SPEED;
+        projectileSize = DEFAULT_PROJECTILE_SIZE;
         ammoCount = DEFAULT_AMMO_COUNT;
         projectileCount = 10;
         shootingCooldown = DEFAULT_SHOOTING_COOLDOWN;
         lastShootTime = System.currentTimeMillis();
+        rotationSpeed = MAX_ROTATION_SPEED;
     }
 
     public void moveUp() {
@@ -56,17 +59,20 @@ public class Player extends PolygonShapeEntity {
         super.move(new Point2D.Double(center.getX() + speed, center.getY()));
     }
 
-    public Optional<Projectile> fire(double angle) {
+    public Optional<Projectile> fire() {
         if (projectileCount > 0 && System.currentTimeMillis() - lastShootTime > shootingCooldown)
         {
             lastShootTime = System.currentTimeMillis();
             projectileCount--;
-            return Optional.of(new Projectile((int) center.getX(),
-                    (int) center.getY(),
-                    projectTileRadius,
-                    angle,
-                    projectTileSpeed,
-                    gamePanel.getDrawableGarbage()));
+            Projectile projectile = new Projectile((int) center.getX(),
+                (int) center.getY(),
+                projectileSize,
+                angle,
+                projectileSpeed,
+                gamePanel.getDrawableGarbage(),
+                "resources/projectile.png");
+            projectile.setAngle(angle);
+            return Optional.of(projectile);
         }
         return Optional.empty();
     }
@@ -96,4 +102,7 @@ public class Player extends PolygonShapeEntity {
         }
     }
 
+    public double getRotationSpeed() {
+        return rotationSpeed;
+    }
 }

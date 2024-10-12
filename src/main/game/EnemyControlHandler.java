@@ -24,6 +24,7 @@ public class EnemyControlHandler {
             double x = player.getPosition().getX() - enemy.getPosition().getX();
             double y = player.getPosition().getY() - enemy.getPosition().getY();
             double angle = Math.atan2(y, x);
+            enemy.setAngle(angle);
             enemy.moveTo(angle);
         }
     }

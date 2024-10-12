@@ -4,20 +4,17 @@ import main.game.DrawableGarbage;
 
 import java.awt.geom.Point2D;
 
-import static java.awt.Color.*;
-
-public class Projectile extends CircleShapeEntity {
+public class Projectile extends PolygonShapeEntity {
 
     private final DrawableGarbage drawableGarbage;
     private final double angle;
     private double speed;
 
-    public Projectile(int x, int y, double radius, double angle, double speed, DrawableGarbage drawableGarbage) {
-        super(x, y, radius);
+    public Projectile(int x, int y, int tileSize, double angle, double speed, DrawableGarbage drawableGarbage, String imagePath) {
+        super(x, y, tileSize, imagePath);
         this.drawableGarbage = drawableGarbage;
         this.angle = angle;
         this.speed = speed;
-        super.color = YELLOW;
     }
 
     public void move() {

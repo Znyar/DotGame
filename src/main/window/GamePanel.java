@@ -4,9 +4,13 @@ import main.entity.Drawable;
 import main.entity.Player;
 import main.game.*;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +23,7 @@ public class GamePanel extends Canvas implements Runnable {
     private boolean running;
 
     private Camera camera;
+    private PlayerUI playerUI;
 
     private PlayerControlHandler playerControlHandler;
     private CollisionHandler collisionHandler;
@@ -31,6 +36,7 @@ public class GamePanel extends Canvas implements Runnable {
     private final List<Drawable> drawables = new ArrayList<>();
 
     private BufferStrategy bufferStrategy;
+    private BufferedImage backgroundImage;
 
     public GamePanel() {
         this.setBackground(Color.BLACK);
@@ -44,8 +50,15 @@ public class GamePanel extends Canvas implements Runnable {
         this.createBufferStrategy(2);
         bufferStrategy = this.getBufferStrategy();
 
+        try {
+            backgroundImage = ImageIO.read(new File("resources/background.jpg"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         System.out.println("Gamepanel: " + getWidth() + " " + getHeight());
         camera = new Camera(this);
+        playerUI = new PlayerUI(500, 100, this);
 
         initPlayer();
 
@@ -85,7 +98,7 @@ public class GamePanel extends Canvas implements Runnable {
     }
 
     private void initPlayer() {
-        player = new Player(this);
+        player = new Player(this, "resources/player.png");
         drawables.add(player);
     }
 
@@ -149,6 +162,11 @@ public class GamePanel extends Canvas implements Runnable {
                 Graphics2D g2 = (Graphics2D) bufferStrategy.getDrawGraphics();
                 try {
                     g2.clearRect(0, 0, getWidth(), getHeight());
+
+                    if (backgroundImage != null) {
+                        g2.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), null);
+                    }
+
                     draw(g2);
                 } finally {
                     g2.dispose();
@@ -172,6 +190,7 @@ public class GamePanel extends Canvas implements Runnable {
                 drawable.draw(g2);
             }
         });
+        playerUI.draw(g2);
         g2.translate(camera.getXOffset(), camera.getYOffset());
     }
 

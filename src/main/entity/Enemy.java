@@ -4,8 +4,6 @@ import main.game.DrawableGarbage;
 
 import java.awt.geom.Point2D;
 
-import static java.awt.Color.*;
-
 public class Enemy extends CircleShapeEntity {
 
     private final DrawableGarbage drawableGarbage;
@@ -14,11 +12,10 @@ public class Enemy extends CircleShapeEntity {
     private final static double DEFAULT_SPEED = 0.5;
     private static final int DEFAULT_RADIUS = 30;
 
-    public Enemy(int startX, int startY, DrawableGarbage drawableGarbage) {
-        super(startX, startY, DEFAULT_RADIUS);
+    public Enemy(int startX, int startY, DrawableGarbage drawableGarbage, String imagePath) {
+        super(startX, startY, DEFAULT_RADIUS, 0, imagePath);
         this.drawableGarbage = drawableGarbage;
         radius = DEFAULT_RADIUS;
-        color = RED;
         speed = DEFAULT_SPEED;
     }
 

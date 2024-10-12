@@ -2,6 +2,7 @@ package main.window;
 
 import main.entity.Player;
 
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 public class Camera {
@@ -16,8 +17,8 @@ public class Camera {
     public Camera(GamePanel gamePanel) {
         this.screenWidth = gamePanel.getWidth();
         this.screenHeight = gamePanel.getHeight();
-        this.xOffset = 0;
-        this.yOffset = 0;
+        this.xOffset = gamePanel.getWidth() / 2.0;
+        this.yOffset = gamePanel.getHeight() / 2.0;
     }
 
     public void update(Player player) {

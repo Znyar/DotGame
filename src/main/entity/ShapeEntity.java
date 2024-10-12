@@ -1,13 +1,13 @@
 package main.entity;
 
-import java.awt.*;
 import java.awt.geom.Area;
 import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
 
 public abstract class ShapeEntity implements Drawable, Collidable {
 
     protected Point2D center;
-    protected Color color;
+    protected BufferedImage image;
 
     @Override
     public boolean isColliding(Collidable other) {

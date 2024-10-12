@@ -4,6 +4,8 @@ import java.awt.event.*;
 
 public abstract class InputHandler implements KeyListener, MouseListener, MouseMotionListener {
 
+    protected static final double MOUSE_SENSITIVITY = 0.1;
+
     protected boolean upPressed, downPressed, leftPressed, rightPressed;
     protected boolean shiftPressed, rPressed;
     protected boolean leftMousePressed;

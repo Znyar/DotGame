@@ -15,9 +15,34 @@ public class PlayerControlHandler extends InputHandler {
         Player player = gamePanel.getPlayer();
 
         setPlayerPosition(player);
+        setPlayerRotation(player);
         setPlayerOptions(player);
         handleShooting(player);
         handleWindowControls();
+    }
+
+    private void setPlayerRotation(Player player) {
+        double worldMouseX = mouseX + gamePanel.getCamera().getXOffset();
+        double worldMouseY = mouseY + gamePanel.getCamera().getYOffset();
+
+        double deltaX = worldMouseX - player.getPosition().getX();
+        double deltaY = worldMouseY - player.getPosition().getY();
+        double targetAngle = Math.atan2(deltaY, deltaX);
+
+        double currentAngle = player.getAngle();
+
+        double angleDifference = targetAngle - currentAngle;
+
+        angleDifference = (angleDifference + Math.PI) % (2 * Math.PI) - Math.PI;
+
+        if (angleDifference > player.getRotationSpeed()) {
+            angleDifference = player.getRotationSpeed();
+        } else if (angleDifference < -player.getRotationSpeed()) {
+            angleDifference = -player.getRotationSpeed();
+        }
+
+        double newAngle = currentAngle + angleDifference;
+        player.setAngle(newAngle);
     }
 
     private void handleWindowControls() {
@@ -54,15 +79,7 @@ public class PlayerControlHandler extends InputHandler {
 
     private void handleShooting(Player player) {
         if (leftMousePressed) {
-            double worldMouseX = mouseX + gamePanel.getCamera().getXOffset();
-            double worldMouseY = mouseY + gamePanel.getCamera().getYOffset();
-
-            double deltaX = worldMouseX - player.getPosition().getX();
-            double deltaY = worldMouseY - player.getPosition().getY();
-
-            double angle = Math.atan2(deltaY, deltaX);
-
-            player.fire(angle).ifPresent(projectile -> gamePanel.getDrawables().add(projectile));
+            player.fire().ifPresent(projectile -> gamePanel.getDrawables().add(projectile));
         }
     }
 }
