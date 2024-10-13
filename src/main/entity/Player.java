@@ -10,7 +10,6 @@ public class Player extends PolygonShapeEntity {
 
     private final GamePanel gamePanel;
 
-    private int tileSize;
     private double speed;
     private double rotationSpeed;
     private double maxSpeed;
@@ -33,7 +32,6 @@ public class Player extends PolygonShapeEntity {
 
     public Player(GamePanel gamePanel) {
         super(gamePanel.getWidth() / 2, gamePanel.getHeight() / 2, DEFAULT_TILE_SIZE, ResourceLoader.getPlayerImage());
-        tileSize = DEFAULT_TILE_SIZE;
         speed = DEFAULT_MIN_SPEED;
         maxSpeed = DEFAULT_MAX_SPEED;
         minSpeed = DEFAULT_MIN_SPEED;

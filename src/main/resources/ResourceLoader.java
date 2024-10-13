@@ -20,7 +20,7 @@ public class ResourceLoader {
 
     public static void loadResources() {
         try {
-            for (int i = 35; i <= 210; i += 2) {
+            for (int i = 1; i <= 60; i++) {
                 String framePath = String.format("resources/animation/explosion/explosion_frame_%04d.png", i);
                 BufferedImage frame = ImageIO.read(new File(framePath));
                 explosionFrames.add(frame);

@@ -85,6 +85,7 @@ public class GamePanel extends Canvas implements Runnable {
         gameThread.interrupt();
         drawables.clear();
         initPlayer();
+        playerUI.reset();
         startGameThread();
     }
 
@@ -134,6 +135,7 @@ public class GamePanel extends Canvas implements Runnable {
         camera.update(player);
         projectileHandler.handle();
         collisionHandler.handleCollisions();
+        playerUI.update();
         enemyGenerator.update();
         playerControlHandler.handle();
         enemyControlHandler.handle();

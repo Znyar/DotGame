@@ -19,7 +19,8 @@ public class PlayerUI implements Drawable {
     private final GamePanel gamePanel;
 
     private int score;
-    private final Instant startTime;
+    private int bestScore;
+    private Instant startTime;
 
     private final BufferedImage rButtonIcon = ResourceLoader.getRButtonImage();
     private final Font font = ResourceLoader.getUIFont();
@@ -29,11 +30,18 @@ public class PlayerUI implements Drawable {
         this.panelHeight = panelHeight;
         this.gamePanel = gamePanel;
         this.score = 0;
+        this.bestScore = 0;
         this.startTime = Instant.now();
     }
 
     public void increaseScore(int amount) {
         score += amount;
+    }
+
+    public void update() {
+        if (score > bestScore) {
+            bestScore = score;
+        }
     }
 
     @Override
@@ -74,22 +82,28 @@ public class PlayerUI implements Drawable {
             g.setColor(Color.RED);
             int rButtonY = centerY - rButtonIcon.getHeight() / 2;
             g.drawImage(rButtonIcon,
-                    (int) (rect.x + rect.width * 0.3),
+                    (int) (rect.x + rect.width * 0.1),
                     rButtonY,
                     null);
         }
 
         g.drawString("Ammo : " + player.getProjectileCount() + "/" + player.getAmmoCount(),
-                (int) (rect.x + rect.width * 0.5),
+                (int) (rect.x + rect.width * 0.3),
                 ammoY);
 
         g.setColor(Color.WHITE);
-        g.drawString("Score : " + score, (int) (rect.x + rect.width * 0.5), scoreY);
-        g.drawString("Time : " + time, (int) (rect.x + rect.width * 0.5), timeY);
+        g.drawString("Score : " + score + " Best: " + bestScore, (int) (rect.x + rect.width * 0.3), scoreY);
+        g.drawString("Time : " + time, (int) (rect.x + rect.width * 0.3), timeY);
     }
 
     @Override
     public Point2D getPosition() {
         return null;
     }
+
+    public void reset() {
+        score = 0;
+        startTime = Instant.now();
+    }
+
 }

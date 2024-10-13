@@ -36,7 +36,7 @@ public class Explosion implements Drawable {
         }
 
         long currentTime = System.currentTimeMillis();
-        long frameDuration = 10;
+        long frameDuration = 20;
         if (currentTime - lastFrameTime >= frameDuration) {
             currentFrame++;
             lastFrameTime = currentTime;
