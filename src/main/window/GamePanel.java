@@ -4,6 +4,7 @@ import main.entity.Drawable;
 import main.entity.Player;
 import main.game.*;
 import main.resources.ResourceLoader;
+import main.sound.SoundManager;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -30,16 +31,19 @@ public class GamePanel extends Canvas implements Runnable {
     private ProjectileHandler projectileHandler;
     private DrawableGarbage drawableGarbage;
 
+    private SoundManager soundManager;
+
     private Player player;
     private final List<Drawable> drawables = new ArrayList<>();
 
     private BufferStrategy bufferStrategy;
     private final BufferedImage backgroundImage = ResourceLoader.getBackgroundImage();
 
-    public GamePanel() {
+    public GamePanel(SoundManager soundManager) {
         this.setBackground(Color.BLACK);
         this.setIgnoreRepaint(true);
         this.setFocusable(true);
+        this.soundManager = soundManager;
     }
 
     @Override
@@ -205,4 +209,9 @@ public class GamePanel extends Canvas implements Runnable {
     public PlayerUI getPlayerUI() {
         return playerUI;
     }
+
+    public SoundManager getSoundManager() {
+        return soundManager;
+    }
+
 }

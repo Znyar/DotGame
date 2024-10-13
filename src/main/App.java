@@ -1,6 +1,7 @@
 package main;
 
 import main.resources.ResourceLoader;
+import main.sound.SoundManager;
 import main.window.GamePanel;
 
 import javax.swing.*;
@@ -10,6 +11,8 @@ public class App {
 
     public static void main(String[] args) {
         ResourceLoader.loadResources();
+        SoundManager soundManager = new SoundManager();
+
         JFrame window = new JFrame();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
@@ -24,12 +27,14 @@ public class App {
             window.setSize(Toolkit.getDefaultToolkit().getScreenSize());
         }
 
-        GamePanel gamePanel = new GamePanel();
+        GamePanel gamePanel = new GamePanel(soundManager);
         gamePanel.setSize(window.getWidth(), window.getHeight());
 
         window.add(gamePanel);
 
         window.setVisible(true);
+
+        soundManager.playBackgroundMusic();
 
         gamePanel.startGameThread();
     }

@@ -35,6 +35,7 @@ public class Enemy extends CircleShapeEntity {
             gamePanel.getDrawableGarbage().add(this);
             gamePanel.getPlayerUI().increaseScore(1);
             Explosion explosion = new Explosion(this.getPosition(), gamePanel);
+            gamePanel.getSoundManager().playExplosionSound();
             gamePanel.getDrawables().add(explosion);
         }
     }

@@ -103,6 +103,9 @@ public class Player extends PolygonShapeEntity {
             projectile.setAngle(angle);
             backwardSpeed = DEFAULT_BACKWARD_SPEED;
             backwardMovement = DEFAULT_BACKWARD_MOVEMENT;
+
+            gamePanel.getSoundManager().playShotSound();
+
             return Optional.of(projectile);
         }
         return Optional.empty();
