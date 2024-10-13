@@ -35,9 +35,6 @@ public class PlayerControlHandler extends InputHandler {
         currentAngle = normalizeAngle(currentAngle);
         targetAngle = normalizeAngle(targetAngle);
 
-        System.out.println("Current angle: " + currentAngle);
-        System.out.println("Target angle: " + targetAngle);
-
         double angleDifference = targetAngle - currentAngle;
 
         if (angleDifference > Math.PI) {

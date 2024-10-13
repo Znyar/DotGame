@@ -1,27 +1,21 @@
 package main.entity;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
-import java.io.File;
-import java.io.IOException;
+import java.awt.image.BufferedImage;
 
 public abstract class CircleShapeEntity extends ShapeEntity {
 
     protected final double radius;
     private double angle;
 
-    public CircleShapeEntity(int x, int y, double radius, double angle, String imagePath) {
+    public CircleShapeEntity(int x, int y, double radius, double angle, BufferedImage image) {
         center = new Point(x, y);
         this.radius = radius;
         this.angle = angle;
-        try {
-            image = ImageIO.read(new File(imagePath));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        this.image = image;
     }
 
     protected void move(Point2D newCenter) {

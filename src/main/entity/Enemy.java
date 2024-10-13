@@ -1,25 +1,22 @@
 package main.entity;
 
-import main.game.DrawableGarbage;
-import main.window.PlayerUI;
+import main.animations.Explosion;
+import main.resources.ResourceLoader;
+import main.window.GamePanel;
 
 import java.awt.geom.Point2D;
 
 public class Enemy extends CircleShapeEntity {
 
-    private final DrawableGarbage drawableGarbage;
-    private final PlayerUI playerUI;
-    private int radius;
+    private final GamePanel gamePanel;
     private double speed;
     private final static double DEFAULT_SPEED = 0.5;
     private static final int DEFAULT_RADIUS = 30;
 
-    public Enemy(int startX, int startY, DrawableGarbage drawableGarbage, String imagePath, PlayerUI playerUI) {
-        super(startX, startY, DEFAULT_RADIUS, 0, imagePath);
-        this.drawableGarbage = drawableGarbage;
-        radius = DEFAULT_RADIUS;
+    public Enemy(int startX, int startY, GamePanel gamePanel) {
+        super(startX, startY, DEFAULT_RADIUS, 0, ResourceLoader.getEnemyImage());
         speed = DEFAULT_SPEED;
-        this.playerUI = playerUI;
+        this.gamePanel = gamePanel;
     }
 
     public Point2D getPosition() {
@@ -35,9 +32,10 @@ public class Enemy extends CircleShapeEntity {
     @Override
     public void onCollision(Collidable other) {
         if (other instanceof Projectile) {
-            drawableGarbage.add(this);
-            playerUI.increaseScore(1);
+            gamePanel.getDrawableGarbage().add(this);
+            gamePanel.getPlayerUI().increaseScore(1);
+            Explosion explosion = new Explosion(this.getPosition(), gamePanel);
+            gamePanel.getDrawables().add(explosion);
         }
     }
-
 }

@@ -3,14 +3,12 @@ package main.window;
 import main.entity.Drawable;
 import main.entity.Player;
 import main.game.*;
+import main.resources.ResourceLoader;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +34,7 @@ public class GamePanel extends Canvas implements Runnable {
     private final List<Drawable> drawables = new ArrayList<>();
 
     private BufferStrategy bufferStrategy;
-    private BufferedImage backgroundImage;
+    private final BufferedImage backgroundImage = ResourceLoader.getBackgroundImage();
 
     public GamePanel() {
         this.setBackground(Color.BLACK);
@@ -49,12 +47,6 @@ public class GamePanel extends Canvas implements Runnable {
         super.addNotify();
         this.createBufferStrategy(2);
         bufferStrategy = this.getBufferStrategy();
-
-        try {
-            backgroundImage = ImageIO.read(new File("resources/background.jpg"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
         camera = new Camera(this);
         playerUI = new PlayerUI(500, 100, this);
@@ -97,7 +89,7 @@ public class GamePanel extends Canvas implements Runnable {
     }
 
     private void initPlayer() {
-        player = new Player(this, "resources/player.png");
+        player = new Player(this);
         drawables.add(player);
     }
 

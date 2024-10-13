@@ -1,5 +1,6 @@
 package main.entity;
 
+import main.resources.ResourceLoader;
 import main.window.GamePanel;
 
 import java.awt.geom.Point2D;
@@ -30,8 +31,8 @@ public class Player extends PolygonShapeEntity {
     private static final int DEFAULT_TILE_SIZE = 48;
     private final static double MAX_ROTATION_SPEED = 0.05;
 
-    public Player(GamePanel gamePanel, String imagePath) {
-        super(gamePanel.getWidth() / 2, gamePanel.getHeight() / 2, DEFAULT_TILE_SIZE, imagePath);
+    public Player(GamePanel gamePanel) {
+        super(gamePanel.getWidth() / 2, gamePanel.getHeight() / 2, DEFAULT_TILE_SIZE, ResourceLoader.getPlayerImage());
         tileSize = DEFAULT_TILE_SIZE;
         speed = DEFAULT_MIN_SPEED;
         maxSpeed = DEFAULT_MAX_SPEED;
@@ -69,8 +70,7 @@ public class Player extends PolygonShapeEntity {
                 projectileSize,
                 angle,
                 projectileSpeed,
-                gamePanel.getDrawableGarbage(),
-                "resources/projectile.png");
+                gamePanel.getDrawableGarbage());
             projectile.setAngle(angle);
             return Optional.of(projectile);
         }

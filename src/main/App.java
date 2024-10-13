@@ -1,5 +1,6 @@
 package main;
 
+import main.resources.ResourceLoader;
 import main.window.GamePanel;
 
 import javax.swing.*;
@@ -8,6 +9,7 @@ import java.awt.*;
 public class App {
 
     public static void main(String[] args) {
+        ResourceLoader.loadResources();
         JFrame window = new JFrame();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);

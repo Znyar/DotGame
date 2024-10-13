@@ -1,6 +1,7 @@
 package main.entity;
 
 import main.game.DrawableGarbage;
+import main.resources.ResourceLoader;
 
 import java.awt.geom.Point2D;
 
@@ -10,8 +11,8 @@ public class Projectile extends PolygonShapeEntity {
     private final double angle;
     private double speed;
 
-    public Projectile(int x, int y, int tileSize, double angle, double speed, DrawableGarbage drawableGarbage, String imagePath) {
-        super(x, y, tileSize, imagePath);
+    public Projectile(int x, int y, int tileSize, double angle, double speed, DrawableGarbage drawableGarbage) {
+        super(x, y, tileSize, ResourceLoader.getProjectileImage());
         this.drawableGarbage = drawableGarbage;
         this.angle = angle;
         this.speed = speed;

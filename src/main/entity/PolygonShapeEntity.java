@@ -1,12 +1,10 @@
 package main.entity;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.io.File;
-import java.io.IOException;
+import java.awt.image.BufferedImage;
 
 public abstract class PolygonShapeEntity extends ShapeEntity {
 
@@ -14,16 +12,11 @@ public abstract class PolygonShapeEntity extends ShapeEntity {
     protected Point2D center;
     protected double angle;
 
-    public PolygonShapeEntity(int startX, int startY, int tileSize, String imagePath) {
+    public PolygonShapeEntity(int startX, int startY, int tileSize, BufferedImage image) {
         center = new Point2D.Double(startX, startY);
         this.tileSize = tileSize;
         angle = 0;
-
-        try {
-            image = ImageIO.read(new File(imagePath));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        this.image = image;
     }
 
     public void setAngle(double angle) {

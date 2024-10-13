@@ -49,7 +49,7 @@ public class EnemyGenerator {
             x = random.nextInt(cameraWidth + 2 * SPAWN_MARGIN) + (int) xOffset - SPAWN_MARGIN;
         }
 
-        Enemy enemy = new Enemy(x, y, gamePanel.getDrawableGarbage(), "resources/enemy.png", gamePanel.getPlayerUI());
+        Enemy enemy = new Enemy(x, y, gamePanel);
         gamePanel.getDrawables().add(enemy);
     }
 }

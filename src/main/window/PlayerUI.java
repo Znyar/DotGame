@@ -2,14 +2,12 @@ package main.window;
 
 import main.entity.Drawable;
 import main.entity.Player;
+import main.resources.ResourceLoader;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 
@@ -20,11 +18,11 @@ public class PlayerUI implements Drawable {
 
     private final GamePanel gamePanel;
 
-    private final Font font;
     private int score;
     private final Instant startTime;
 
-    private final BufferedImage rButtonIcon;
+    private final BufferedImage rButtonIcon = ResourceLoader.getRButtonImage();
+    private final Font font = ResourceLoader.getUIFont();
 
     public PlayerUI(int panelWidth, int panelHeight, GamePanel gamePanel) {
         this.panelWidth = panelWidth;
@@ -32,14 +30,6 @@ public class PlayerUI implements Drawable {
         this.gamePanel = gamePanel;
         this.score = 0;
         this.startTime = Instant.now();
-        try {
-            rButtonIcon = ImageIO.read(new File("resources/r-button.png"));
-            font = Font.createFont(Font.TRUETYPE_FONT, new File("resources/space age.ttf"));
-            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            ge.registerFont(font);
-        } catch (FontFormatException | IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     public void increaseScore(int amount) {
