@@ -24,14 +24,14 @@ public class ResourceLoader {
                 String framePath = String.format("resources/animation/explosion/explosion_frame_%04d.png", i);
                 BufferedImage frame = ImageIO.read(new File(framePath));
                 explosionFrames.add(frame);
-                enemyImage = ImageIO.read(new File("resources/enemy.png"));
-                projectileImage = ImageIO.read(new File("resources/projectile.png"));
-                playerImage = ImageIO.read(new File("resources/player.png"));
-                backgroundImage = ImageIO.read(new File("resources/background.jpg"));
-                rButtonImage = ImageIO.read(new File("resources/r-button.png"));
-                UIFont = Font.createFont(Font.TRUETYPE_FONT, new File("resources/space-age.ttf"));
-                GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(UIFont);
             }
+            enemyImage = ImageIO.read(new File("resources/enemy.png"));
+            projectileImage = ImageIO.read(new File("resources/projectile.png"));
+            playerImage = ImageIO.read(new File("resources/player.png"));
+            backgroundImage = ImageIO.read(new File("resources/background.jpg"));
+            rButtonImage = ImageIO.read(new File("resources/r-button.png"));
+            UIFont = Font.createFont(Font.TRUETYPE_FONT, new File("resources/space-age.ttf"));
+            GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(UIFont);
         } catch (IOException | FontFormatException e) {
             e.printStackTrace();
         }

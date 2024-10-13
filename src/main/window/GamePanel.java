@@ -133,6 +133,7 @@ public class GamePanel extends Canvas implements Runnable {
 
     private void update() {
         camera.update(player);
+        player.update();
         projectileHandler.handle();
         collisionHandler.handleCollisions();
         playerUI.update();

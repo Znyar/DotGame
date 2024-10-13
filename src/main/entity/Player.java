@@ -29,6 +29,12 @@ public class Player extends PolygonShapeEntity {
     private final static double DEFAULT_MIN_SPEED = DEFAULT_SPEED;
     private static final int DEFAULT_TILE_SIZE = 48;
     private final static double MAX_ROTATION_SPEED = 0.05;
+    private final static double DEFAULT_BACKWARD_MOVEMENT = 70;
+    private final static double DEFAULT_BACKWARD_SPEED = DEFAULT_MAX_SPEED * 1.5;
+    private final static double BACKWARD_MOVEMENT_SLOW_DOWN_FACTOR = 0.1;
+
+    private double backwardMovement;
+    private double backwardSpeed;
 
     public Player(GamePanel gamePanel) {
         super(gamePanel.getWidth() / 2, gamePanel.getHeight() / 2, DEFAULT_TILE_SIZE, ResourceLoader.getPlayerImage());
@@ -43,6 +49,8 @@ public class Player extends PolygonShapeEntity {
         shootingCooldown = DEFAULT_SHOOTING_COOLDOWN;
         lastShootTime = System.currentTimeMillis();
         rotationSpeed = MAX_ROTATION_SPEED;
+        backwardMovement = 0;
+        backwardSpeed = DEFAULT_BACKWARD_SPEED;
     }
 
     public void moveUp() {
@@ -58,6 +66,29 @@ public class Player extends PolygonShapeEntity {
         super.move(new Point2D.Double(center.getX() + speed, center.getY()));
     }
 
+    public void update() {
+        if (backwardMovement > 0) {
+            moveBack();
+            backwardMovement -= backwardSpeed;
+
+            if (backwardMovement < 0) {
+                backwardMovement = 0;
+            } else if (backwardMovement < DEFAULT_BACKWARD_MOVEMENT * 0.4) {
+                backwardSpeed *= (1 - BACKWARD_MOVEMENT_SLOW_DOWN_FACTOR);
+            }
+        }
+    }
+
+    private void moveBack() {
+        double currentX = center.getX();
+        double currentY = center.getY();
+
+        double newX = currentX - backwardSpeed * Math.cos(angle);
+        double newY = currentY - backwardSpeed * Math.sin(angle);
+
+        super.move(new Point2D.Double(newX, newY));
+    }
+
     public Optional<Projectile> fire() {
         if (projectileCount > 0 && System.currentTimeMillis() - lastShootTime > shootingCooldown)
         {
@@ -70,6 +101,8 @@ public class Player extends PolygonShapeEntity {
                 projectileSpeed,
                 gamePanel.getDrawableGarbage());
             projectile.setAngle(angle);
+            backwardSpeed = DEFAULT_BACKWARD_SPEED;
+            backwardMovement = DEFAULT_BACKWARD_MOVEMENT;
             return Optional.of(projectile);
         }
         return Optional.empty();
@@ -111,4 +144,5 @@ public class Player extends PolygonShapeEntity {
     public double getRotationSpeed() {
         return rotationSpeed;
     }
+
 }
