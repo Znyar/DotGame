@@ -70,11 +70,6 @@ public class PlayerControlHandler extends InputHandler {
     }
 
     private void setPlayerOptions(Player player) {
-        if (shiftPressed) {
-            player.speedUp();
-        } else {
-            player.slowDown();
-        }
         if (rPressed) {
             player.rearm();
         }

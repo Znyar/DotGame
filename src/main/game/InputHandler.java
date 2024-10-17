@@ -4,10 +4,8 @@ import java.awt.event.*;
 
 public abstract class InputHandler implements KeyListener, MouseListener, MouseMotionListener {
 
-    protected static final double MOUSE_SENSITIVITY = 0.1;
-
     protected boolean upPressed, downPressed, leftPressed, rightPressed;
-    protected boolean shiftPressed, rPressed;
+    protected boolean rPressed;
     protected boolean leftMousePressed;
     protected boolean escPressed;
     protected double mouseX, mouseY;
@@ -24,7 +22,6 @@ public abstract class InputHandler implements KeyListener, MouseListener, MouseM
             case KeyEvent.VK_S, KeyEvent.VK_DOWN -> downPressed = true;
             case KeyEvent.VK_A, KeyEvent.VK_LEFT -> leftPressed = true;
             case KeyEvent.VK_D, KeyEvent.VK_RIGHT -> rightPressed = true;
-            case KeyEvent.VK_SHIFT -> shiftPressed = true;
             case KeyEvent.VK_ESCAPE -> escPressed = true;
             case  KeyEvent.VK_R -> rPressed = true;
         }
@@ -38,7 +35,6 @@ public abstract class InputHandler implements KeyListener, MouseListener, MouseM
             case KeyEvent.VK_S, KeyEvent.VK_DOWN -> downPressed = false;
             case KeyEvent.VK_A, KeyEvent.VK_LEFT -> leftPressed = false;
             case KeyEvent.VK_D, KeyEvent.VK_RIGHT -> rightPressed = false;
-            case KeyEvent.VK_SHIFT -> shiftPressed = false;
             case KeyEvent.VK_ESCAPE -> escPressed = false;
             case  KeyEvent.VK_R -> rPressed = false;
         }

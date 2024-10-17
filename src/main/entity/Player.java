@@ -12,25 +12,22 @@ public class Player extends PolygonShapeEntity {
 
     private double speed;
     private double rotationSpeed;
-    private double maxSpeed;
-    private double minSpeed;
     private int projectileSize;
     private double projectileSpeed;
     private int ammoCount;
     private int projectileCount;
     private int shootingCooldown;
-    private long lastShootTime;
+    private int rearmingCooldown;
     private static final int DEFAULT_SHOOTING_COOLDOWN = 1000;
     private static final int DEFAULT_AMMO_COUNT = 10;
+    private static final int DEFAULT_REARMING_COOLDOWN = DEFAULT_SHOOTING_COOLDOWN * DEFAULT_AMMO_COUNT;
     private final static double DEFAULT_PROJECTILE_SPEED = 10;
     private final static int DEFAULT_PROJECTILE_SIZE = 20;
     private final static double DEFAULT_SPEED = 1;
-    private final static double DEFAULT_MAX_SPEED = DEFAULT_SPEED * 2;
-    private final static double DEFAULT_MIN_SPEED = DEFAULT_SPEED;
     private static final int DEFAULT_TILE_SIZE = 48;
     private final static double MAX_ROTATION_SPEED = 0.05;
     private final static double DEFAULT_BACKWARD_MOVEMENT = 70;
-    private final static double DEFAULT_BACKWARD_SPEED = DEFAULT_MAX_SPEED * 1.5;
+    private final static double DEFAULT_BACKWARD_SPEED = DEFAULT_SPEED * 3;
     private final static double BACKWARD_MOVEMENT_SLOW_DOWN_FACTOR = 0.1;
 
     private double backwardMovement;
@@ -38,16 +35,16 @@ public class Player extends PolygonShapeEntity {
 
     public Player(GamePanel gamePanel) {
         super(gamePanel.getWidth() / 2, gamePanel.getHeight() / 2, DEFAULT_TILE_SIZE, ResourceLoader.getPlayerImage());
-        speed = DEFAULT_MIN_SPEED;
-        maxSpeed = DEFAULT_MAX_SPEED;
-        minSpeed = DEFAULT_MIN_SPEED;
+        speed = DEFAULT_SPEED;
         this.gamePanel = gamePanel;
         projectileSpeed = DEFAULT_PROJECTILE_SPEED;
         projectileSize = DEFAULT_PROJECTILE_SIZE;
         ammoCount = DEFAULT_AMMO_COUNT;
         projectileCount = 10;
         shootingCooldown = DEFAULT_SHOOTING_COOLDOWN;
+        rearmingCooldown = DEFAULT_REARMING_COOLDOWN;
         lastShootTime = System.currentTimeMillis();
+        lastRearmTime = System.currentTimeMillis();
         rotationSpeed = MAX_ROTATION_SPEED;
         backwardMovement = 0;
         backwardSpeed = DEFAULT_BACKWARD_SPEED;
@@ -89,30 +86,44 @@ public class Player extends PolygonShapeEntity {
         super.move(new Point2D.Double(newX, newY));
     }
 
+    private long lastShootTime;
+
     public Optional<Projectile> fire() {
-        if (projectileCount > 0 && System.currentTimeMillis() - lastShootTime > shootingCooldown)
+        if (projectileCount <= 0)
         {
-            lastShootTime = System.currentTimeMillis();
-            projectileCount--;
-            Projectile projectile = new Projectile((int) center.getX(),
+            gamePanel.getSoundManager().playNoAmmoSound(shootingCooldown);
+            return Optional.empty();
+        }
+
+        if (System.currentTimeMillis() - lastShootTime < shootingCooldown) {
+            return Optional.empty();
+        }
+
+        lastShootTime = System.currentTimeMillis();
+        projectileCount--;
+        Projectile projectile = new Projectile((int) center.getX(),
                 (int) center.getY(),
                 projectileSize,
                 angle,
                 projectileSpeed,
                 gamePanel.getDrawableGarbage());
-            projectile.setAngle(angle);
-            backwardSpeed = DEFAULT_BACKWARD_SPEED;
-            backwardMovement = DEFAULT_BACKWARD_MOVEMENT;
+        projectile.setAngle(angle);
+        backwardSpeed = DEFAULT_BACKWARD_SPEED;
+        backwardMovement = DEFAULT_BACKWARD_MOVEMENT;
 
-            gamePanel.getSoundManager().playShotSound();
+        gamePanel.getSoundManager().playShotSound();
 
-            return Optional.of(projectile);
-        }
-        return Optional.empty();
+        return Optional.of(projectile);
     }
 
+    private long lastRearmTime;
+
     public void rearm() {
-        projectileCount = ammoCount;
+        if (System.currentTimeMillis() - lastRearmTime > rearmingCooldown) {
+            projectileCount = ammoCount;
+            lastRearmTime = System.currentTimeMillis();
+            gamePanel.getSoundManager().playRearmingSound();
+        }
     }
 
     public int getAmmoCount() {
@@ -123,18 +134,8 @@ public class Player extends PolygonShapeEntity {
         return projectileCount;
     }
 
-    public void speedUp() {
-        if (speed < maxSpeed)
-            speed += 0.1;
-    }
-
     public Point2D getPosition() {
         return center;
-    }
-
-    public void slowDown() {
-        if (speed > minSpeed)
-            speed -= 0.1;
     }
 
     @Override

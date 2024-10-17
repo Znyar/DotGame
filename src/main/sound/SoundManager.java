@@ -8,10 +8,14 @@ public class SoundManager {
     private static Clip backgroundMusicClip;
     private static byte[] shotSoundData;
     private static byte[] explosionSoundData;
+    private static byte[] noAmmoSoundData;
+    private static byte[] rearmingSoundData;
 
     public static void loadSounds() {
         loadBackgroundMusic();
         loadShotSound();
+        loadNoAmmoSound();
+        loadRearmingSound();
         loadExplosionSound();
     }
 
@@ -44,6 +48,24 @@ public class SoundManager {
         }
     }
 
+    private static void loadNoAmmoSound() {
+        try {
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("resources/audio/no-ammo.wav"));
+            noAmmoSoundData = audioStreamToByteArray(audioInputStream);
+        } catch (UnsupportedAudioFileException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void loadRearmingSound() {
+        try {
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("resources/audio/rearming.wav"));
+            rearmingSoundData = audioStreamToByteArray(audioInputStream);
+        } catch (UnsupportedAudioFileException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private static byte[] audioStreamToByteArray(AudioInputStream audioInputStream) throws IOException {
         try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()) {
             byte[] buffer = new byte[1024];
@@ -67,6 +89,19 @@ public class SoundManager {
 
     public void playExplosionSound() {
         new Thread(() -> playSound(explosionSoundData)).start();
+    }
+
+    private long lastNoAmmoSoundTime;
+
+    public void playNoAmmoSound(int cooldown) {
+        if (lastNoAmmoSoundTime < System.currentTimeMillis() - cooldown) {
+            lastNoAmmoSoundTime = System.currentTimeMillis();
+            new Thread(() -> playSound(noAmmoSoundData)).start();
+        }
+    }
+
+    public void playRearmingSound() {
+        new Thread(() -> playSound(rearmingSoundData)).start();
     }
 
     private void playSound(byte[] soundData) {
