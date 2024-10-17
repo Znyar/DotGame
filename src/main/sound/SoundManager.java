@@ -2,6 +2,8 @@ package main.sound;
 
 import javax.sound.sampled.*;
 import java.io.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class SoundManager {
 
@@ -10,6 +12,8 @@ public class SoundManager {
     private static byte[] explosionSoundData;
     private static byte[] noAmmoSoundData;
     private static byte[] rearmingSoundData;
+
+    private static final ExecutorService soundExecutor = Executors.newCachedThreadPool();
 
     public static void loadSounds() {
         loadBackgroundMusic();
@@ -84,11 +88,11 @@ public class SoundManager {
     }
 
     public void playShotSound() {
-        new Thread(() -> playSound(shotSoundData)).start();
+        soundExecutor.submit(() -> playSound(shotSoundData));
     }
 
     public void playExplosionSound() {
-        new Thread(() -> playSound(explosionSoundData)).start();
+        soundExecutor.submit(() -> playSound(explosionSoundData));
     }
 
     private long lastNoAmmoSoundTime;
@@ -96,12 +100,12 @@ public class SoundManager {
     public void playNoAmmoSound(int cooldown) {
         if (lastNoAmmoSoundTime < System.currentTimeMillis() - cooldown) {
             lastNoAmmoSoundTime = System.currentTimeMillis();
-            new Thread(() -> playSound(noAmmoSoundData)).start();
+            soundExecutor.submit(() -> playSound(noAmmoSoundData));
         }
     }
 
     public void playRearmingSound() {
-        new Thread(() -> playSound(rearmingSoundData)).start();
+        soundExecutor.submit(() -> playSound(rearmingSoundData));
     }
 
     private void playSound(byte[] soundData) {
