@@ -11,6 +11,7 @@ public class App {
 
     public static void main(String[] args) {
         ResourceLoader.loadResources();
+        SoundManager.loadSounds();
         SoundManager soundManager = new SoundManager();
 
         JFrame window = new JFrame();

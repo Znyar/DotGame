@@ -1,22 +1,21 @@
 package main.sound;
 
 import javax.sound.sampled.*;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 
 public class SoundManager {
 
-    private Clip backgroundMusicClip;
-    private Clip shotSoundClip;
-    private Clip explosionSoundClip;
+    private static Clip backgroundMusicClip;
+    private static byte[] shotSoundData;
+    private static byte[] explosionSoundData;
 
-    public SoundManager() {
+    public static void loadSounds() {
         loadBackgroundMusic();
         loadShotSound();
         loadExplosionSound();
     }
 
-    private void loadBackgroundMusic() {
+    private static void loadBackgroundMusic() {
         try {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("resources/audio/background.wav"));
             backgroundMusicClip = AudioSystem.getClip();
@@ -27,23 +26,32 @@ public class SoundManager {
         }
     }
 
-    private void loadShotSound() {
+    private static void loadShotSound() {
         try {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("resources/audio/shooting.wav"));
-            shotSoundClip = AudioSystem.getClip();
-            shotSoundClip.open(audioInputStream);
-        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            shotSoundData = audioStreamToByteArray(audioInputStream);
+        } catch (UnsupportedAudioFileException | IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void loadExplosionSound() {
+    private static void loadExplosionSound() {
         try {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("resources/audio/explosion.wav"));
-            explosionSoundClip = AudioSystem.getClip();
-            explosionSoundClip.open(audioInputStream);
-        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            explosionSoundData = audioStreamToByteArray(audioInputStream);
+        } catch (UnsupportedAudioFileException | IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private static byte[] audioStreamToByteArray(AudioInputStream audioInputStream) throws IOException {
+        try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()) {
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = audioInputStream.read(buffer)) != -1) {
+                byteArrayOutputStream.write(buffer, 0, bytesRead);
+            }
+            return byteArrayOutputStream.toByteArray();
         }
     }
 
@@ -54,17 +62,40 @@ public class SoundManager {
     }
 
     public void playShotSound() {
-        if (shotSoundClip != null) {
-            shotSoundClip.setFramePosition(0);
-            shotSoundClip.start();
-        }
+        new Thread(() -> playSound(shotSoundData)).start();
     }
 
     public void playExplosionSound() {
-        if (explosionSoundClip != null) {
-            explosionSoundClip.setFramePosition(0);
-            explosionSoundClip.start();
+        new Thread(() -> playSound(explosionSoundData)).start();
+    }
+
+    private void playSound(byte[] soundData) {
+        if (soundData == null) return;
+
+        try (AudioInputStream audioInputStream = new AudioInputStream(
+                new ByteArrayInputStream(soundData),
+                getAudioFormat(),
+                soundData.length / getAudioFormat().getFrameSize())) {
+
+            SourceDataLine sourceDataLine = AudioSystem.getSourceDataLine(getAudioFormat());
+            sourceDataLine.open(getAudioFormat());
+            sourceDataLine.start();
+
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = audioInputStream.read(buffer, 0, buffer.length)) != -1) {
+                sourceDataLine.write(buffer, 0, bytesRead);
+            }
+
+            sourceDataLine.drain();
+            sourceDataLine.close();
+        } catch (LineUnavailableException | IOException e) {
+            e.printStackTrace();
         }
+    }
+
+    private AudioFormat getAudioFormat() {
+        return new AudioFormat(44100, 16, 2, true, false);
     }
 
 }

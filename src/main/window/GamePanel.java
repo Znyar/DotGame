@@ -31,7 +31,7 @@ public class GamePanel extends Canvas implements Runnable {
     private ProjectileHandler projectileHandler;
     private DrawableGarbage drawableGarbage;
 
-    private SoundManager soundManager;
+    private final SoundManager soundManager;
 
     private Player player;
     private final List<Drawable> drawables = new ArrayList<>();

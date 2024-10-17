@@ -54,7 +54,13 @@ public class PlayerControlHandler extends InputHandler {
     }
 
     private double normalizeAngle(double angle) {
-        return (angle + Math.PI) % (2 * Math.PI) - Math.PI;
+        while (angle > Math.PI) {
+            angle -= 2 * Math.PI;
+        }
+        while (angle < -Math.PI) {
+            angle += 2 * Math.PI;
+        }
+        return angle;
     }
 
     private void handleWindowControls() {
