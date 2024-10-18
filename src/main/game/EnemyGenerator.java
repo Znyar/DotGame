@@ -48,10 +48,8 @@ public class EnemyGenerator implements Runnable {
             x = random.nextInt(cameraWidth + 2 * SPAWN_MARGIN) + (int) xOffset - SPAWN_MARGIN;
         }
 
-        synchronized (gamePanel.getDrawables()) {
-            Enemy enemy = new Enemy(x, y, gamePanel);
-            gamePanel.getDrawables().add(enemy);
-        }
+        Enemy enemy = new Enemy(x, y, gamePanel);
+        gamePanel.getDrawables().add(enemy);
     }
 
     public void start(long initialDelay) {

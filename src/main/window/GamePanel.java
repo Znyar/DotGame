@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class GamePanel extends Canvas implements Runnable {
 
@@ -36,7 +37,7 @@ public class GamePanel extends Canvas implements Runnable {
     private final SoundManager soundManager;
 
     private Player player;
-    private final List<Drawable> drawables = new ArrayList<>();
+    private final List<Drawable> drawables = new CopyOnWriteArrayList<>();
 
     private BufferStrategy bufferStrategy;
     private final BufferedImage backgroundImage = ResourceLoader.getBackgroundImage();
