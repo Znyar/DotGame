@@ -10,12 +10,14 @@ public class Projectile extends PolygonShapeEntity {
     private final DrawableGarbage drawableGarbage;
     private final double angle;
     private double speed;
+    private int damage;
 
-    public Projectile(int x, int y, int tileSize, double angle, double speed, DrawableGarbage drawableGarbage) {
+    public Projectile(int x, int y, int tileSize, int damage, double angle, double speed, DrawableGarbage drawableGarbage) {
         super(x, y, tileSize, ResourceLoader.getProjectileImage());
         this.drawableGarbage = drawableGarbage;
         this.angle = angle;
         this.speed = speed;
+        this.damage = damage;
     }
 
     public void move() {
@@ -34,6 +36,10 @@ public class Projectile extends PolygonShapeEntity {
     @Override
     public Point2D getPosition() {
         return center;
+    }
+
+    public int getDamage() {
+        return damage;
     }
 
 }

@@ -12,6 +12,7 @@ public class SoundManager {
     private static byte[] explosionSoundData;
     private static byte[] noAmmoSoundData;
     private static byte[] rearmingSoundData;
+    private static byte[] impactSoundData;
 
     private static final ExecutorService soundExecutor = Executors.newCachedThreadPool();
 
@@ -21,6 +22,7 @@ public class SoundManager {
         loadNoAmmoSound();
         loadRearmingSound();
         loadExplosionSound();
+        loadImpactSound();
     }
 
     private static void loadBackgroundMusic() {
@@ -70,6 +72,15 @@ public class SoundManager {
         }
     }
 
+    private static void loadImpactSound() {
+        try {
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("resources/audio/impact.wav"));
+            impactSoundData = audioStreamToByteArray(audioInputStream);
+        } catch (UnsupportedAudioFileException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private static byte[] audioStreamToByteArray(AudioInputStream audioInputStream) throws IOException {
         try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()) {
             byte[] buffer = new byte[1024];
@@ -93,6 +104,10 @@ public class SoundManager {
 
     public void playExplosionSound() {
         soundExecutor.submit(() -> playSound(explosionSoundData));
+    }
+
+    public void playImpactSound() {
+        soundExecutor.submit(() -> playSound(impactSoundData));
     }
 
     private long lastNoAmmoSoundTime;

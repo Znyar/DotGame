@@ -14,6 +14,7 @@ public class Player extends PolygonShapeEntity {
     private double speed;
     private double rotationSpeed;
     private int projectileSize;
+    private int damage;
     private double projectileSpeed;
     private int ammoCount;
     private int projectileCount;
@@ -24,6 +25,7 @@ public class Player extends PolygonShapeEntity {
     private static final int DEFAULT_REARMING_COOLDOWN = DEFAULT_SHOOTING_COOLDOWN * DEFAULT_AMMO_COUNT;
     private final static double DEFAULT_PROJECTILE_SPEED = 10;
     private final static int DEFAULT_PROJECTILE_SIZE = 20;
+    private final static int DEFAULT_DAMAGE = 1;
     private final static double DEFAULT_SPEED = 1;
     private static final int DEFAULT_TILE_SIZE = 48;
     private final static double MAX_ROTATION_SPEED = 0.05;
@@ -44,6 +46,7 @@ public class Player extends PolygonShapeEntity {
         projectileCount = 10;
         shootingCooldown = DEFAULT_SHOOTING_COOLDOWN;
         rearmingCooldown = DEFAULT_REARMING_COOLDOWN;
+        damage = DEFAULT_DAMAGE;
         lastShootTime = System.currentTimeMillis();
         lastRearmTime = System.currentTimeMillis();
         rotationSpeed = MAX_ROTATION_SPEED;
@@ -105,6 +108,7 @@ public class Player extends PolygonShapeEntity {
         Projectile projectile = new Projectile((int) center.getX(),
                 (int) center.getY(),
                 projectileSize,
+                damage,
                 angle,
                 projectileSpeed,
                 gamePanel.getDrawableGarbage());
