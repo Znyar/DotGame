@@ -1,5 +1,6 @@
 package main.entity;
 
+import main.animations.Explosion;
 import main.resources.ResourceLoader;
 import main.window.GamePanel;
 
@@ -141,7 +142,11 @@ public class Player extends PolygonShapeEntity {
     @Override
     public void onCollision(Collidable other) {
         if (other instanceof Enemy) {
-            gamePanel.restartGameThread();
+            Explosion explosion = new Explosion(this.getPosition(), gamePanel);
+            gamePanel.getSoundManager().playExplosionSound();
+            gamePanel.getDrawables().add(explosion);
+            gamePanel.getDrawableGarbage().add(this);
+            gamePanel.scheduleRestartGame(2000);
         }
     }
 

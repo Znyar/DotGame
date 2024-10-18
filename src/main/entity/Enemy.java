@@ -31,7 +31,7 @@ public class Enemy extends CircleShapeEntity {
 
     @Override
     public void onCollision(Collidable other) {
-        if (other instanceof Projectile) {
+        if (other instanceof Projectile || other instanceof Player) {
             gamePanel.getDrawableGarbage().add(this);
             gamePanel.getPlayerUI().increaseScore(1);
             Explosion explosion = new Explosion(this.getPosition(), gamePanel);

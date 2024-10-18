@@ -12,6 +12,8 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class GamePanel extends Canvas implements Runnable {
 
@@ -85,7 +87,16 @@ public class GamePanel extends Canvas implements Runnable {
         System.exit(0);
     }
 
-    public void restartGameThread() {
+    public void scheduleRestartGame(int delay) {
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                restartGameThread();
+            }
+        }, delay);
+    }
+
+    private void restartGameThread() {
         gameThread.interrupt();
         drawables.clear();
         initPlayer();
