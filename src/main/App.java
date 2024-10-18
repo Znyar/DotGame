@@ -1,7 +1,7 @@
 package main;
 
 import main.resources.ResourceLoader;
-import main.sound.SoundManager;
+import main.resources.sound.SoundManager;
 import main.window.GamePanel;
 
 import javax.swing.*;

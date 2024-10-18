@@ -18,12 +18,11 @@ public class EnemyGenerator implements Runnable {
     private final Random random = new Random();
     private final GamePanel gamePanel;
 
-    private final ScheduledExecutorService scheduler;
+    private ScheduledExecutorService scheduler;
 
     public EnemyGenerator(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
         spawnInterval = DEFAULT_SPAWN_INTERVAL;
-        scheduler = Executors.newSingleThreadScheduledExecutor();
     }
 
     private void spawnEnemy() {
@@ -53,11 +52,19 @@ public class EnemyGenerator implements Runnable {
     }
 
     public void start(long initialDelay) {
+        stop();
+        scheduler = Executors.newSingleThreadScheduledExecutor();
         scheduler.scheduleAtFixedRate(this, initialDelay, spawnInterval, TimeUnit.MILLISECONDS);
     }
 
+    public void restart(long initialDelay) {
+        start(initialDelay);
+    }
+
     public void stop() {
-        scheduler.shutdown();
+        if (scheduler != null && !scheduler.isShutdown()) {
+            scheduler.shutdown();
+        }
     }
 
     @Override

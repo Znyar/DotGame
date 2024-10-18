@@ -4,7 +4,7 @@ import main.entity.Drawable;
 import main.entity.Player;
 import main.game.*;
 import main.resources.ResourceLoader;
-import main.sound.SoundManager;
+import main.resources.sound.SoundManager;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -108,7 +108,7 @@ public class GamePanel extends Canvas implements Runnable {
         initPlayer();
         playerUI.reset();
 
-        enemyGenerator.start(2000);
+        enemyGenerator.restart(2000);
 
         startGameThread();
     }
