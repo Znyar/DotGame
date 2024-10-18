@@ -62,9 +62,12 @@ public class GamePanel extends Canvas implements Runnable {
         playerControlHandler = new PlayerControlHandler(this);
         collisionHandler = new CollisionHandler(this);
         enemyControlHandler = new EnemyControlHandler(this);
-        enemyGenerator = new EnemyGenerator(this);
         projectileHandler = new ProjectileHandler(this);
+
         drawableGarbage = new DrawableGarbage();
+
+        enemyGenerator = new EnemyGenerator(this);
+        enemyGenerator.start(1000);
 
         this.addKeyListener(playerControlHandler);
         this.addMouseListener(playerControlHandler);
@@ -83,6 +86,9 @@ public class GamePanel extends Canvas implements Runnable {
 
     public void stopGameThread() {
         running = false;
+
+        enemyGenerator.stop();
+
         gameThread.interrupt();
         System.exit(0);
     }
@@ -101,6 +107,9 @@ public class GamePanel extends Canvas implements Runnable {
         drawables.clear();
         initPlayer();
         playerUI.reset();
+
+        enemyGenerator.start(2000);
+
         startGameThread();
     }
 
@@ -152,7 +161,6 @@ public class GamePanel extends Canvas implements Runnable {
         projectileHandler.handle();
         collisionHandler.handleCollisions();
         playerUI.update();
-        enemyGenerator.update();
         playerControlHandler.handle();
         enemyControlHandler.handle();
         drawables.removeAll(drawableGarbage.getDrawables());

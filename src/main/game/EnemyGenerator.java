@@ -5,26 +5,25 @@ import main.window.Camera;
 import main.window.GamePanel;
 
 import java.util.Random;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
-public class EnemyGenerator {
+public class EnemyGenerator implements Runnable {
 
-    private static final int SPAWN_INTERVAL = 2000;
+    private static final long DEFAULT_SPAWN_INTERVAL = 2000;
     private static final int SPAWN_MARGIN = 100;
+
+    private long spawnInterval;
     private final Random random = new Random();
     private final GamePanel gamePanel;
-    private long lastSpawnTime;
+
+    private final ScheduledExecutorService scheduler;
 
     public EnemyGenerator(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
-        lastSpawnTime = System.currentTimeMillis();
-    }
-
-    public void update() {
-        long currentTime = System.currentTimeMillis();
-        if (currentTime - lastSpawnTime >= SPAWN_INTERVAL) {
-            spawnEnemy();
-            lastSpawnTime = currentTime;
-        }
+        spawnInterval = DEFAULT_SPAWN_INTERVAL;
+        scheduler = Executors.newSingleThreadScheduledExecutor();
     }
 
     private void spawnEnemy() {
@@ -49,7 +48,23 @@ public class EnemyGenerator {
             x = random.nextInt(cameraWidth + 2 * SPAWN_MARGIN) + (int) xOffset - SPAWN_MARGIN;
         }
 
-        Enemy enemy = new Enemy(x, y, gamePanel);
-        gamePanel.getDrawables().add(enemy);
+        synchronized (gamePanel.getDrawables()) {
+            Enemy enemy = new Enemy(x, y, gamePanel);
+            gamePanel.getDrawables().add(enemy);
+        }
     }
+
+    public void start(long initialDelay) {
+        scheduler.scheduleAtFixedRate(this, initialDelay, spawnInterval, TimeUnit.MILLISECONDS);
+    }
+
+    public void stop() {
+        scheduler.shutdown();
+    }
+
+    @Override
+    public void run() {
+        spawnEnemy();
+    }
+
 }
