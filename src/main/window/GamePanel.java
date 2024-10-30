@@ -25,6 +25,7 @@ public class GamePanel extends Canvas implements Runnable {
 
     private Camera camera;
     private PlayerUI playerUI;
+    private PlayerManager playerManager;
 
     private PlayerControlHandler playerControlHandler;
     private CollisionHandler collisionHandler;
@@ -56,6 +57,7 @@ public class GamePanel extends Canvas implements Runnable {
 
         camera = new Camera(this);
         playerUI = new PlayerUI(500, 100, this);
+        playerManager = new PlayerManager();
 
         initPlayer();
 
@@ -106,7 +108,7 @@ public class GamePanel extends Canvas implements Runnable {
         gameThread.interrupt();
         drawables.clear();
         initPlayer();
-        playerUI.reset();
+        playerManager.reset();
 
         enemyGenerator.restart(2000);
 
@@ -160,7 +162,7 @@ public class GamePanel extends Canvas implements Runnable {
         player.update();
         projectileHandler.handle();
         collisionHandler.handleCollisions();
-        playerUI.update();
+        playerManager.update();
         playerControlHandler.handle();
         enemyControlHandler.handle();
         drawables.removeAll(drawableGarbage.getDrawables());
@@ -225,8 +227,8 @@ public class GamePanel extends Canvas implements Runnable {
         return drawableGarbage;
     }
 
-    public PlayerUI getPlayerUI() {
-        return playerUI;
+    public PlayerManager getPlayerManager() {
+        return playerManager;
     }
 
     public SoundManager getSoundManager() {

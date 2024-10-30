@@ -2,6 +2,7 @@ package main.window;
 
 import main.entity.Drawable;
 import main.entity.Player;
+import main.game.PlayerManager;
 import main.resources.ResourceLoader;
 
 import java.awt.*;
@@ -18,10 +19,6 @@ public class PlayerUI implements Drawable {
 
     private final GamePanel gamePanel;
 
-    private int score;
-    private int bestScore;
-    private Instant startTime;
-
     private final BufferedImage rButtonIcon = ResourceLoader.getRButtonImage();
     private final Font font = ResourceLoader.getUIFont();
 
@@ -29,24 +26,11 @@ public class PlayerUI implements Drawable {
         this.panelWidth = panelWidth;
         this.panelHeight = panelHeight;
         this.gamePanel = gamePanel;
-        this.score = 0;
-        this.bestScore = 0;
-        this.startTime = Instant.now();
-    }
-
-    public void increaseScore(int amount) {
-        score += amount;
-    }
-
-    public void update() {
-        if (score > bestScore) {
-            bestScore = score;
-        }
     }
 
     @Override
     public void draw(Graphics2D g) {
-        Duration elapsedTime = Duration.between(startTime, Instant.now());
+        Duration elapsedTime = Duration.between(gamePanel.getPlayerManager().getStartTime(), Instant.now());
         long minutes = elapsedTime.toMinutes();
         long seconds = elapsedTime.getSeconds() % 60;
         String time = String.format("%02d:%02d", minutes, seconds);
@@ -56,7 +40,7 @@ public class PlayerUI implements Drawable {
         double windowWidth = gamePanel.getCamera().getScreenWidth();
         double cameraX = cameraRect.getCenterX();
         double cameraY = cameraRect.getCenterY();
-        Rectangle rect = new Rectangle((int) (cameraX + windowWidth / 2 * 0.9 - panelWidth),
+        Rectangle rect = new Rectangle((int) (cameraX + windowWidth / 2 * 0.8 - panelWidth),
                 (int) (cameraY + windowHeight / 2 * 0.9 - panelHeight),
                 panelWidth,
                 panelHeight);
@@ -65,9 +49,11 @@ public class PlayerUI implements Drawable {
 
     private void drawText(Graphics2D g, Rectangle rect, String time) {
         g.setColor(Color.WHITE);
-        g.setFont(font.deriveFont(24f));
 
-        FontMetrics metrics = g.getFontMetrics(g.getFont());
+        Font textFont = font.deriveFont(24f);
+        g.setFont(textFont);
+
+        FontMetrics metrics = g.getFontMetrics(textFont);
         int textHeight = metrics.getHeight();
 
         int centerY = rect.y + rect.height / 2;
@@ -92,18 +78,22 @@ public class PlayerUI implements Drawable {
                 ammoY);
 
         g.setColor(Color.WHITE);
-        g.drawString("Score : " + score + " Best: " + bestScore, (int) (rect.x + rect.width * 0.3), scoreY);
+
+        PlayerManager playerManager = gamePanel.getPlayerManager();
+        g.drawString("Score : " + playerManager.getScore() + " Best: " + playerManager.getBestScore(), (int) (rect.x + rect.width * 0.3), scoreY);
         g.drawString("Time : " + time, (int) (rect.x + rect.width * 0.3), timeY);
+
+        textFont = font.deriveFont(80f);
+        metrics = g.getFontMetrics(textFont);
+        textHeight = metrics.getHeight();
+        int levelY = centerY + textHeight / 4;
+        g.setFont(textFont);
+        g.drawString(String.valueOf(playerManager.getLevel()), rect.x + rect.width, levelY);
     }
 
     @Override
     public Point2D getPosition() {
         return null;
-    }
-
-    public void reset() {
-        score = 0;
-        startTime = Instant.now();
     }
 
 }

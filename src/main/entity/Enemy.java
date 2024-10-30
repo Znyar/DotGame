@@ -43,7 +43,7 @@ public class Enemy extends CircleShapeEntity {
             hp = hp - projectile.getDamage();
             if (hp <= 0) {
                 gamePanel.getDrawableGarbage().add(this);
-                gamePanel.getPlayerUI().increaseScore(1);
+                gamePanel.getPlayerManager().increaseScore(1);
                 Explosion explosion = new Explosion(this.getPosition(), gamePanel);
                 gamePanel.getSoundManager().playExplosionSound();
                 gamePanel.getDrawables().add(explosion);
