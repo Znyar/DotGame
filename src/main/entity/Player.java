@@ -11,6 +11,7 @@ public class Player extends PolygonShapeEntity {
 
     private final GamePanel gamePanel;
 
+    private boolean isAlive;
     private double speed;
     private double rotationSpeed;
     private int projectileSize;
@@ -52,22 +53,29 @@ public class Player extends PolygonShapeEntity {
         rotationSpeed = MAX_ROTATION_SPEED;
         backwardMovement = 0;
         backwardSpeed = DEFAULT_BACKWARD_SPEED;
+        isAlive = true;
     }
 
     public void moveUp() {
+        if (!isAlive) return;
         super.move(new Point2D.Double(center.getX(), center.getY() - speed));
     }
     public void moveDown() {
+        if (!isAlive) return;
         super.move(new Point2D.Double(center.getX(), center.getY() + speed));
     }
     public void moveLeft() {
+        if (!isAlive) return;
         super.move(new Point2D.Double(center.getX() - speed, center.getY()));
     }
     public void moveRight() {
+        if (!isAlive) return;
         super.move(new Point2D.Double(center.getX() + speed, center.getY()));
     }
 
     public void update() {
+        if (!isAlive) return;
+
         if (backwardMovement > 0) {
             moveBack();
             backwardMovement -= backwardSpeed;
@@ -81,6 +89,8 @@ public class Player extends PolygonShapeEntity {
     }
 
     private void moveBack() {
+        if (!isAlive) return;
+
         double currentX = center.getX();
         double currentY = center.getY();
 
@@ -93,6 +103,8 @@ public class Player extends PolygonShapeEntity {
     private long lastShootTime;
 
     public Optional<Projectile> fire() {
+        if (!isAlive) return Optional.empty();
+
         if (projectileCount <= 0)
         {
             gamePanel.getSoundManager().playNoAmmoSound(shootingCooldown);
@@ -124,6 +136,8 @@ public class Player extends PolygonShapeEntity {
     private long lastRearmTime;
 
     public void rearm() {
+        if (!isAlive) return;
+
         if (System.currentTimeMillis() - lastRearmTime > rearmingCooldown) {
             projectileCount = ammoCount;
             lastRearmTime = System.currentTimeMillis();
@@ -150,6 +164,7 @@ public class Player extends PolygonShapeEntity {
             gamePanel.getSoundManager().playExplosionSound();
             gamePanel.getDrawables().add(explosion);
             gamePanel.getDrawableGarbage().add(this);
+            isAlive = false;
             gamePanel.scheduleRestartGame(2000);
         }
     }
