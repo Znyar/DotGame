@@ -146,7 +146,7 @@ public class Player extends PolygonShapeEntity {
     @Override
     public void onCollision(Collidable other) {
         if (other instanceof Enemy) {
-            Explosion explosion = new Explosion(this.getPosition(), gamePanel);
+            Explosion explosion = new Explosion(this.getPosition(), gamePanel, tileSize * 15, tileSize * 10);
             gamePanel.getSoundManager().playExplosionSound();
             gamePanel.getDrawables().add(explosion);
             gamePanel.getDrawableGarbage().add(this);

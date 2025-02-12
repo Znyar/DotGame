@@ -44,14 +44,14 @@ public class Enemy extends CircleShapeEntity {
             if (hp <= 0) {
                 gamePanel.getDrawableGarbage().add(this);
                 gamePanel.getPlayerManager().increaseScore(1);
-                Explosion explosion = new Explosion(this.getPosition(), gamePanel);
+                Explosion explosion = new Explosion(this.getPosition(), gamePanel, (int) (radius * 10), (int) (radius * 6));
                 gamePanel.getSoundManager().playExplosionSound();
                 gamePanel.getDrawables().add(explosion);
             }
         }
         if (other instanceof Player) {
             gamePanel.getDrawableGarbage().add(this);
-            Explosion explosion = new Explosion(this.getPosition(), gamePanel);
+            Explosion explosion = new Explosion(this.getPosition(), gamePanel, (int) (radius * 10), (int) (radius * 6));
             gamePanel.getSoundManager().playExplosionSound();
             gamePanel.getDrawables().add(explosion);
         }

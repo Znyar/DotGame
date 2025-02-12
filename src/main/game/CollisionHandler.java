@@ -1,9 +1,7 @@
 package main.game;
 
-import main.entity.*;
+import main.entity.Collidable;
 import main.window.GamePanel;
-
-import java.util.List;
 
 public class CollisionHandler {
 
@@ -14,18 +12,16 @@ public class CollisionHandler {
     }
 
     public void handleCollisions() {
-        List<Drawable> drawables = gamePanel.getDrawables();
-
-        List<Collidable> collidables = drawables.stream()
+        Collidable[] collidables = gamePanel.getDrawables().stream()
                 .filter(drawable -> drawable instanceof Collidable)
                 .map(drawable -> (Collidable) drawable)
                 .filter(collidable -> collidable.getCollisionBounds().intersects(gamePanel.getCamera().getBounds()))
-                .toList();
+                .toArray(Collidable[]::new);
 
-        for (int i = 0; i < collidables.size(); i++) {
-            Collidable current = collidables.get(i);
-            for (int j = i + 1; j < collidables.size(); j++) {
-                Collidable other = collidables.get(j);
+        for (int i = 0; i < collidables.length; i++) {
+            Collidable current = collidables[i];
+            for (int j = i + 1; j < collidables.length; j++) {
+                Collidable other = collidables[j];
                 if (current.isColliding(other)) {
                     current.onCollision(other);
                     other.onCollision(current);

@@ -14,16 +14,20 @@ public class Explosion implements Drawable {
 
     private final GamePanel gamePanel;
     private static final List<BufferedImage> frames = ResourceLoader.getExplosionFrames();
+    private final int width;
+    private final int height;
     private int currentFrame;
     private final Point2D position;
     private boolean finished;
 
     private long lastFrameTime;
 
-    public Explosion(Point2D position, GamePanel gamePanel) {
+    public Explosion(Point2D position, GamePanel gamePanel, int width, int height) {
         this.gamePanel = gamePanel;
         this.position = position;
         this.currentFrame = 0;
+        this.width = width;
+        this.height = height;
         this.finished = false;
         this.lastFrameTime = System.currentTimeMillis();
     }
@@ -54,8 +58,8 @@ public class Explosion implements Drawable {
         double worldX = position.getX();
         double worldY = position.getY();
 
-        double scaleX = (double) 480 / imgWidth;
-        double scaleY = (double) 270 / imgHeight;
+        double scaleX = (double) width / imgWidth;
+        double scaleY = (double) height / imgHeight;
 
         float alpha = 1.0f;
         int fadeStartFrame = (int) (frames.size() * 0.7);
@@ -69,7 +73,7 @@ public class Explosion implements Drawable {
         g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
 
         AffineTransform transform = new AffineTransform();
-        transform.translate(worldX - 240, worldY - 135);
+        transform.translate(worldX - (double)width / 2, worldY - (double)height / 2);
         transform.scale(scaleX, scaleY);
 
         g.drawImage(frame, transform, null);
